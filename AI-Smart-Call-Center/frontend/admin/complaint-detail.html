@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Details - Admin Panel</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body class="admin-dashboard">
+    <!-- Admin Navigation -->
+    <nav class="admin-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                </svg>
+                <span>Admin Panel</span>
+            </div>
+            <div class="nav-actions">
+                <div class="admin-user">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span id="adminUsername">Admin</span>
+                </div>
+                <button class="btn-logout" id="logoutBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-menu">
+                <a href="index.html" class="menu-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="../index.html" class="menu-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>Main Site</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div class="detail-header">
+                <a href="index.html" class="back-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                    </svg>
+                    Back to Dashboard
+                </a>
+                <h1>Complaint Details</h1>
+            </div>
+
+            <div id="loadingState" class="loading-container">
+                <div class="loading-spinner"></div>
+                <p>Loading complaint details...</p>
+            </div>
+
+            <div id="detailContent" style="display: none;">
+                <!-- Complaint Info Card -->
+                <div class="detail-card">
+                    <div class="card-header">
+                        <h2>Basic Information</h2>
+                        <div class="status-badge" id="statusBadge">Pending</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Complaint ID</label>
+                                <span id="complaintId" class="info-value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Category</label>
+                                <span id="category" class="info-value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Sub-Category</label>
+                                <span id="subCategory" class="info-value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Priority</label>
+                                <span id="priority" class="info-value priority-badge">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Created Date</label>
+                                <span id="createdDate" class="info-value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Last Updated</label>
+                                <span id="updatedDate" class="info-value">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Citizen Information -->
+                <div class="detail-card">
+                    <div class="card-header">
+                        <h2>Citizen Information</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Name</label>
+                                <span id="citizenName" class="info-value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Phone Number</label>
+                                <span id="phoneNumber" class="info-value">-</span>
+                            </div>
+                            <div class="info-item full-width">
+                                <label>Email</label>
+                                <span id="email" class="info-value">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location Information -->
+                <div class="detail-card">
+                    <div class="card-header">
+                        <h2>Location Information</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Ward</label>
+                                <span id="ward" class="info-value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Zone</label>
+                                <span id="zone" class="info-value">-</span>
+                            </div>
+                            <div class="info-item full-width">
+                                <label>Address</label>
+                                <span id="address" class="info-value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Landmark</label>
+                                <span id="landmark" class="info-value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Area</label>
+                                <span id="area" class="info-value">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complaint Description -->
+                <div class="detail-card">
+                    <div class="card-header">
+                        <h2>Complaint Description</h2>
+                    </div>
+                    <div class="card-body">
+                        <p id="description" class="description-text">-</p>
+                    </div>
+                </div>
+
+                <!-- Status Update Section -->
+                <div class="detail-card">
+                    <div class="card-header">
+                        <h2>Update Status</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="statusUpdateForm" class="status-update-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="newStatus">Change Status</label>
+                                    <select id="newStatus" class="form-control" required>
+                                        <option value="">Select status...</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="in_progress">In Progress</option>
+                                        <option value="resolved">Resolved</option>
+                                        <option value="rejected">Rejected</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="updateNote">Update Note</label>
+                                <textarea id="updateNote" class="form-control" rows="3"
+                                    placeholder="Enter update details or notes..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                    <polyline points="7 3 7 8 15 8"></polyline>
+                                </svg>
+                                Save Update
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Update History -->
+                <div class="detail-card">
+                    <div class="card-header">
+                        <h2>Update History</h2>
+                        <span class="update-count" id="updateCount">0 updates</span>
+                    </div>
+                    <div class="card-body">
+                        <div id="updateHistory" class="timeline">
+                            <!-- Timeline items will be inserted here -->
+                        </div>
+                        <div id="noUpdates" class="no-updates" style="display: none;">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                            <p>No updates recorded yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorState" class="error-state" style="display: none;">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <h3>Error Loading Complaint</h3>
+                <p id="errorMessage">Could not load complaint details</p>
+                <a href="index.html" class="btn-primary">Back to Dashboard</a>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/complaint-detail.js"></script>
+</body>
+
+</html>

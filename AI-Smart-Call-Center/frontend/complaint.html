@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Select your complaint type - Street Light, Water Supply, Road Damage, or Garbage">
+    <title>Select Complaint Type | Vadodara Nagar Samwad</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="index.html" class="nav-brand">
+            <span class="emblem">🏛️</span>
+            <div class="nav-brand-text">
+                <span class="title">Vadodara Nagar Samwad</span>
+                <span class="subtitle">वडोदरा नगर संवाद | વડોદરા નગર સંવાડ</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="complaint.html" class="nav-link active">Register Complaint</a>
+            <a href="call.html" class="nav-link">Voice Call</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="call.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                Start AI Call
+            </a>
+        </div>
+    </nav>
+
+    <div class="complaint-container">
+        <header class="complaint-header">
+            <h1>📋 Select Complaint Type</h1>
+            <p>Choose the category that best describes your issue</p>
+        </header>
+
+        <main class="complaint-main">
+            <div style="text-align: center; margin-bottom: var(--space-xl);">
+                <p style="color: var(--text-secondary); font-size: 1.1rem;">
+                    Click on a category to continue with your complaint registration
+                </p>
+            </div>
+
+            <div class="complaint-types-grid">
+                <div class="complaint-card" onclick="selectComplaintType('Street Light')" tabindex="0" role="button"
+                    aria-label="Report Street Light Issue">
+
+                    <h3 class="complaint-title">Street Light</h3>
+                    <p class="complaint-desc">Report broken, flickering, or non-functional street lights in your area
+                    </p>
+                    <div class="card-status">
+                        <span class="status-dot"></span>
+                        <span>~320 Active Reports</span>
+                    </div>
+                </div>
+
+                <div class="complaint-card" onclick="selectComplaintType('Water Supply')" tabindex="0" role="button"
+                    aria-label="Report Water Supply Issue">
+
+                    <h3 class="complaint-title">Water Supply</h3>
+                    <p class="complaint-desc">Report water supply issues, leakage, low pressure, or contamination</p>
+                    <div class="card-status">
+                        <span class="status-dot"></span>
+                        <span>~450 Active Reports</span>
+                    </div>
+                </div>
+
+                <div class="complaint-card" onclick="selectComplaintType('Road Damage')" tabindex="0" role="button"
+                    aria-label="Report Road Damage Issue">
+
+                    <h3 class="complaint-title">Road Damage</h3>
+                    <p class="complaint-desc">Report potholes, damaged roads, broken footpaths, or dangerous conditions
+                    </p>
+                    <div class="card-status">
+                        <span class="status-dot"></span>
+                        <span>~280 Active Reports</span>
+                    </div>
+                </div>
+
+                <div class="complaint-card" onclick="selectComplaintType('Garbage')" tabindex="0" role="button"
+                    aria-label="Report Garbage Collection Issue">
+
+                    <h3 class="complaint-title">Garbage</h3>
+                    <p class="complaint-desc">Report improper waste management, overflowing bins, or cleanup issues</p>
+                    <div class="card-status">
+                        <span class="status-dot"></span>
+                        <span>~195 Active Reports</span>
+                    </div>
+                </div>
+
+                <div class="complaint-card" onclick="selectComplaintType('Drainage')" tabindex="0" role="button"
+                    aria-label="Report Drainage Issue">
+
+                    <h3 class="complaint-title">Drainage</h3>
+                    <p class="complaint-desc">Report blocked drains, overflowing sewers, or manhole issues</p>
+                    <div class="card-status">
+                        <span class="status-dot"></span>
+                        <span>~165 Active Reports</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation-buttons">
+                <a href="call.html" class="btn btn-secondary">← Use Voice Call</a>
+                <a href="index.html" class="btn btn-secondary"> Home</a>
+            </div>
+        </main>
+
+        <footer class="complaint-footer">
+            <p>Vadodara Nagar Samwad © 2026 | Municipal Corporation</p>
+        </footer>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/flow.js"></script>
+    <script src="js/ui.js"></script>
+    <script>
+        // Generate floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 25;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.width = (Math.random() * 4 + 2) + 'px';
+                particle.style.height = particle.style.width;
+                container.appendChild(particle);
+            }
+        }
+
+        function selectComplaintType(complaintType) {
+            if (CONFIG.APP.DEBUG) {
+                console.log('Selected complaint type:', complaintType);
+            }
+
+            // Visual feedback
+            const cards = document.querySelectorAll('.complaint-card');
+            cards.forEach(card => {
+                card.style.opacity = '0.4';
+                card.style.pointerEvents = 'none';
+                card.style.transform = 'scale(0.95)';
+            });
+
+            // Find clicked card and highlight it
+            event.currentTarget.style.opacity = '1';
+            event.currentTarget.style.transform = 'scale(1.05)';
+            event.currentTarget.style.boxShadow = '0 0 50px rgba(102, 126, 234, 0.5)';
+
+            // Save complaint type to state
+            setState({
+                complaint: {
+                    type: complaintType
+                },
+                currentStep: 'sub-category'
+            });
+
+            // Show toast notification
+            showToast(`Selected: ${complaintType}`, 'info');
+
+            // Navigate to sub-category page to select specific issue
+            setTimeout(() => {
+                window.location.href = 'sub-category.html';
+            }, 800);
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ'}</span> ${message}`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Keyboard accessibility
+        document.querySelectorAll('.complaint-card').forEach(card => {
+            card.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // Initialize particles
+        document.addEventListener('DOMContentLoaded', createParticles);
+    </script>
+
+    <style>
+        /* Additional styles for this page */
+        .card-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: var(--space-md);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--glass-border);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success-gradient);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+        }
+    </style>
+</body>
+
+</html>

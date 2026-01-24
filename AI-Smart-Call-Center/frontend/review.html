@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Complaint | Vadodara Nagar Samwad</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="index.html" class="nav-brand">
+            <span class="emblem">🏛️</span>
+            <div class="nav-brand-text">
+                <span class="title">Vadodara Nagar Samwad</span>
+                <span class="subtitle">वडोदरा नगर संवाद | વડોદરા નગર સંવાદ</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="complaint.html" class="nav-link">Register Complaint</a>
+            <a href="call.html" class="nav-link">Voice Call</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="call.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                Start AI Call
+            </a>
+        </div>
+    </nav>
+
+    <div class="review-container">
+        <header class="review-header">
+            <h1>📝 Review Your Complaint</h1>
+            <p>Please verify all details before submitting</p>
+        </header>
+
+        <main class="review-main">
+            <!-- Progress Indicator -->
+            <div class="progress-steps" style="max-width: 600px; margin: 0 auto var(--space-xl);">
+                <div class="progress-step completed">
+                    <div class="step-circle">✓</div>
+                    <span>Type</span>
+                </div>
+                <div class="progress-line active"></div>
+                <div class="progress-step completed">
+                    <div class="step-circle">✓</div>
+                    <span>Details</span>
+                </div>
+                <div class="progress-line active"></div>
+                <div class="progress-step active">
+                    <div class="step-circle">3</div>
+                    <span>Review</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-circle">4</div>
+                    <span>Done</span>
+                </div>
+            </div>
+
+            <div class="review-content glass-card">
+                <div class="review-section">
+                    <h2> Complaint Details</h2>
+
+                    <div class="detail-group">
+                        <label class="detail-label">Complaint Type:</label>
+                        <p class="detail-value" id="complaintType">-</p>
+                    </div>
+
+                    <div class="detail-group">
+                        <label class="detail-label">House No.:</label>
+                        <p class="detail-value" id="houseNo">-</p>
+                    </div>
+
+                    <div class="detail-group">
+                        <label class="detail-label">Area / Locality:</label>
+                        <p class="detail-value" id="area">-</p>
+                    </div>
+
+                    <div class="detail-group">
+                        <label class="detail-label">Ward:</label>
+                        <p class="detail-value" id="ward">-</p>
+                    </div>
+
+                    <div class="detail-group">
+                        <label class="detail-label">Zone:</label>
+                        <p class="detail-value" id="zone">-</p>
+                    </div>
+                </div>
+
+                <div class="review-section">
+                    <h2>📄 Additional Details</h2>
+
+                    <div class="detail-group">
+                        <label class="detail-label">Description:</label>
+                        <p class="detail-value" id="description">-</p>
+                    </div>
+
+                    <div class="detail-group">
+                        <label class="detail-label">Phone Number:</label>
+                        <p class="detail-value" id="phoneNumber">-</p>
+                    </div>
+                </div>
+
+                <!-- n8n Workflow Info -->
+                <div class="n8n-info" style="margin-top: var(--space-lg);">
+                    <div
+                        style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border-radius: var(--radius-lg); border-left: 3px solid rgba(102, 126, 234, 0.5);">
+                        <span style="font-size: 1.5rem;">🔄</span>
+                        <div>
+                            <p style="margin: 0; font-weight: 600; color: var(--text-primary); font-size: 0.95rem;">n8n
+                                Workflow Automation</p>
+                            <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Your complaint will be
+                                automatically routed to the appropriate department</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submission-status" id="submissionStatus" style="display: none;">
+                    <p id="statusMessage"></p>
+                </div>
+            </div>
+
+            <div class="review-actions">
+                <button id="editButton" class="btn btn-secondary">← Edit Details</button>
+                <button id="submitButton" class="btn btn-primary">Submit Complaint ✓</button>
+            </div>
+        </main>
+
+        <footer class="review-footer">
+            <p>Vadodara Nagar Samwad © 2026 | Municipal Corporation</p>
+        </footer>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/flow.js"></script>
+    <script src="js/ui.js"></script>
+    <script>
+        // Generate floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.width = (Math.random() * 4 + 2) + 'px';
+                particle.style.height = particle.style.width;
+                container.appendChild(particle);
+            }
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) existingToast.remove();
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ️'}</span> ${message}`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Load and display complaint details from state
+        function loadComplaintDetails() {
+            const currentState = getState();
+
+            if (CONFIG.DEBUG) {
+                console.log('Current state:', currentState);
+            }
+
+            // Display complaint type
+            if (currentState.complaint && currentState.complaint.type) {
+                document.getElementById('complaintType').textContent = currentState.complaint.type;
+            }
+
+            // Display address details
+            if (currentState.address) {
+                document.getElementById('houseNo').textContent = currentState.address.houseNo || '-';
+                document.getElementById('area').textContent = currentState.address.area || '-';
+                document.getElementById('ward').textContent = currentState.address.ward || '-';
+                document.getElementById('zone').textContent = currentState.address.zone || '-';
+            }
+
+            // Display user details if available
+            if (currentState.userDetails) {
+                document.getElementById('description').textContent = currentState.userDetails.description || 'No additional details provided';
+                document.getElementById('phoneNumber').textContent = currentState.userDetails.phoneNumber || '-';
+            }
+        }
+
+        // Edit button - go back to address page
+        document.getElementById('editButton').addEventListener('click', function () {
+            window.location.href = 'address.html';
+        });
+
+        // Submit button - call backend API
+        document.getElementById('submitButton').addEventListener('click', function () {
+            submitComplaintToBackend();
+        });
+
+        function submitComplaintToBackend() {
+            const currentState = getState();
+
+            // Prepare complaint data
+            const complaintData = {
+                complaint_type: currentState.complaint?.type || '',
+                house_no: currentState.address?.houseNo || '',
+                area: currentState.address?.area || '',
+                ward: currentState.address?.ward || '',
+                zone: currentState.address?.zone || '',
+                description: currentState.userDetails?.description || '',
+                phone_number: currentState.userDetails?.phoneNumber || ''
+            };
+
+            if (CONFIG.DEBUG) {
+                console.log('Submitting complaint:', complaintData);
+            }
+
+            // Show loading state
+            const submitBtn = document.getElementById('submitButton');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span> Submitting...';
+
+            // Call backend API
+            submitComplaint(complaintData)
+                .then(response => {
+                    if (CONFIG.DEBUG) {
+                        console.log('API Response:', response);
+                    }
+
+                    // Update state with complaint ID
+                    if (response.complaint_id) {
+                        setState({ complaintId: response.complaint_id });
+                    }
+
+                    // Trigger n8n webhook for workflow automation
+                    triggerN8nWebhook({
+                        action: 'complaint_submitted',
+                        complaint_id: response.complaint_id,
+                        ...complaintData,
+                        timestamp: new Date().toISOString()
+                    });
+
+                    // Show success message
+                    showSuccessMessage('Complaint submitted successfully! Redirecting...');
+                    showToast('Complaint submitted successfully!', 'success');
+
+                    // Navigate to success page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'success.html';
+                    }, 2000);
+                })
+                .catch(error => {
+                    console.error('Error submitting complaint:', error);
+                    showErrorMessage('Error submitting complaint. Please try again.');
+                    showToast('Error submitting complaint', 'error');
+
+                    // Reset button
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                });
+        }
+
+        // n8n Webhook Trigger
+        function triggerN8nWebhook(data) {
+            const n8nWebhookUrl = CONFIG.N8N?.WEBHOOK_URL || null;
+
+            if (n8nWebhookUrl) {
+                fetch(n8nWebhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(response => {
+                    if (CONFIG.APP.DEBUG) {
+                        console.log('n8n workflow triggered:', response);
+                    }
+                }).catch(error => {
+                    if (CONFIG.APP.DEBUG) {
+                        console.error('n8n webhook error:', error);
+                    }
+                });
+            }
+        }
+
+        function showSuccessMessage(message) {
+            const statusDiv = document.getElementById('submissionStatus');
+            const statusMsg = document.getElementById('statusMessage');
+            statusDiv.className = 'submission-status success';
+            statusMsg.textContent = '✓ ' + message;
+            statusDiv.style.display = 'block';
+        }
+
+        function showErrorMessage(message) {
+            const statusDiv = document.getElementById('submissionStatus');
+            const statusMsg = document.getElementById('statusMessage');
+            statusDiv.className = 'submission-status error';
+            statusMsg.textContent = '✗ ' + message;
+            statusDiv.style.display = 'block';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+            loadComplaintDetails();
+        });
+    </script>
+
+    <style>
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            transition: var(--transition-base);
+        }
+
+        .progress-step.completed .step-circle {
+            background: var(--success-gradient);
+            border-color: transparent;
+            color: white;
+        }
+
+        .progress-step.active .step-circle {
+            background: var(--primary-gradient);
+            border-color: transparent;
+            color: white;
+            box-shadow: var(--glow-primary);
+        }
+
+        .progress-step span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .progress-step.active span,
+        .progress-step.completed span {
+            color: var(--text-primary);
+        }
+
+        .progress-line {
+            flex: 1;
+            height: 3px;
+            background: var(--glass-border);
+            margin: 0 10px 25px;
+            max-width: 80px;
+        }
+
+        .progress-line.active {
+            background: var(--primary-gradient);
+        }
+
+        @media (max-width: 600px) {
+            .progress-steps {
+                transform: scale(0.85);
+            }
+        }
+    </style>
+</body>
+
+</html>

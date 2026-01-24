@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success | Vadodara Nagar Samwad</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✅</text></svg>">
+    <!-- Confetti Animation -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="index.html" class="nav-brand">
+            <span class="emblem">🏛️</span>
+            <div class="nav-brand-text">
+                <span class="title">Vadodara Nagar Samwad</span>
+                <span class="subtitle">वडोदरा नगर संवाद | વડોદરા નગર સંવાદ</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="complaint.html" class="nav-link">Register Complaint</a>
+            <a href="call.html" class="nav-link">Voice Call</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="call.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                Start AI Call
+            </a>
+        </div>
+    </nav>
+
+    <div class="success-container">
+        <header class="success-header">
+            <h1>✅ Complaint Submitted</h1>
+        </header>
+
+        <main class="success-main">
+            <!-- Progress Indicator -->
+            <div class="progress-steps" style="max-width: 600px; margin: 0 auto var(--space-xl);">
+                <div class="progress-step completed">
+                    <div class="step-circle">✓</div>
+                    <span>Type</span>
+                </div>
+                <div class="progress-line active"></div>
+                <div class="progress-step completed">
+                    <div class="step-circle">✓</div>
+                    <span>Details</span>
+                </div>
+                <div class="progress-line active"></div>
+                <div class="progress-step completed">
+                    <div class="step-circle">✓</div>
+                    <span>Review</span>
+                </div>
+                <div class="progress-line active"></div>
+                <div class="progress-step completed">
+                    <div class="step-circle">✓</div>
+                    <span>Done</span>
+                </div>
+            </div>
+
+            <div class="success-content">
+                <div class="success-icon" id="successIcon">
+                    ✓
+                </div>
+
+                <h2 class="success-title">Thank You!</h2>
+
+                <p class="success-message">
+                    Your complaint has been successfully registered with our system.
+                    Our team will review and process your complaint as soon as possible.
+                </p>
+
+                <div class="complaint-id-section glass-card">
+                    <label class="id-label">Your Complaint ID:</label>
+                    <div class="id-display">
+                        <p class="id-value" id="complaintIdDisplay">COMP-20260121-XXXXXXXX</p>
+                        <button class="btn-copy" id="copyIdBtn" onclick="copyComplaintId()">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- n8n Workflow Status -->
+                <div class="workflow-status-card glass-card"
+                    style="margin: var(--space-xl) 0; padding: var(--space-lg);">
+                    <h4
+                        style="margin-bottom: var(--space-md); display: flex; align-items: center; gap: var(--space-sm);">
+                        <span style="font-size: 1.5rem;">🔄</span> n8n Workflow Status
+                    </h4>
+                    <div class="workflow-timeline">
+                        <div class="workflow-step completed">
+                            <div class="workflow-dot"></div>
+                            <div class="workflow-info">
+                                <span class="workflow-label">Complaint Received</span>
+                                <span class="workflow-time">Just now</span>
+                            </div>
+                        </div>
+                        <div class="workflow-step active">
+                            <div class="workflow-dot"></div>
+                            <div class="workflow-info">
+                                <span class="workflow-label">Routing to Department</span>
+                                <span class="workflow-time">Processing...</span>
+                            </div>
+                        </div>
+                        <div class="workflow-step pending">
+                            <div class="workflow-dot"></div>
+                            <div class="workflow-info">
+                                <span class="workflow-label">Assigned to Officer</span>
+                                <span class="workflow-time">Pending</span>
+                            </div>
+                        </div>
+                        <div class="workflow-step pending">
+                            <div class="workflow-dot"></div>
+                            <div class="workflow-info">
+                                <span class="workflow-label">Resolution</span>
+                                <span class="workflow-time">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-details glass-card">
+                    <div class="detail-box">
+                        <p><strong> What's Next?</strong></p>
+                        <ul>
+                            <li>You can track your complaint using the ID above</li>
+                            <li>Our team will contact you at the provided number</li>
+                            <li>Updates will be sent to you regularly</li>
+                            <li>Expected resolution time: 5-7 working days</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success-actions">
+                    <a href="index.html" class="btn btn-primary">🏠 Back to Home</a>
+                    <button class="btn btn-secondary" onclick="printComplaintId()">🖨️ Print Confirmation</button>
+                    <a href="dashboard.html" class="btn btn-secondary">📊 View Dashboard</a>
+                </div>
+
+                <div class="support-info glass-card" style="margin-top: var(--space-xl);">
+                    <p><strong>📞 Need Help?</strong></p>
+                    <p>Call our support team at: <strong style="color: var(--text-accent);">1800-HELP-NOW</strong></p>
+                    <p>Email: <a href="mailto:support@smartcallcenter.gov"
+                            style="color: var(--text-accent);">support@smartcallcenter.gov</a></p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="success-footer">
+            <p>Vadodara Nagar Samwad © 2026 | Municipal Corporation</p>
+        </footer>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/ui.js"></script>
+    <script>
+        // Generate floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.width = (Math.random() * 4 + 2) + 'px';
+                particle.style.height = particle.style.width;
+                container.appendChild(particle);
+            }
+        }
+
+        // Confetti animation
+        function launchConfetti() {
+            const duration = 3000;
+            const end = Date.now() + duration;
+
+            const colors = ['#667eea', '#764ba2', '#00d2ff', '#38ef7d', '#f093fb'];
+
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: colors
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: colors
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+        // Load and display complaint ID from state
+        function loadComplaintId() {
+            const currentState = getState();
+
+            if (CONFIG.DEBUG) {
+                console.log('Success page state:', currentState);
+            }
+
+            if (currentState.complaintId) {
+                document.getElementById('complaintIdDisplay').textContent = currentState.complaintId;
+            }
+        }
+
+        // Copy complaint ID to clipboard
+        function copyComplaintId() {
+            const complaintId = document.getElementById('complaintIdDisplay').textContent;
+            navigator.clipboard.writeText(complaintId)
+                .then(() => {
+                    const copyBtn = document.getElementById('copyIdBtn');
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✓ Copied!';
+                    copyBtn.disabled = true;
+
+                    showToast('Complaint ID copied to clipboard!', 'success');
+
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                        copyBtn.disabled = false;
+                    }, 2000);
+
+                    if (CONFIG.DEBUG) {
+                        console.log('Complaint ID copied to clipboard:', complaintId);
+                    }
+                })
+                .catch(err => {
+                    console.error('Failed to copy:', err);
+                    showToast('Failed to copy complaint ID', 'error');
+                });
+        }
+
+        // Print complaint confirmation
+        function printComplaintId() {
+            const complaintId = document.getElementById('complaintIdDisplay').textContent;
+            const currentState = getState();
+
+            const printContent = `
+                <html>
+                <head>
+                    <title>Complaint Confirmation</title>
+                    <style>
+                        body { 
+                            font-family: 'Inter', Arial, sans-serif; 
+                            margin: 40px;
+                            color: #1a1a3a;
+                        }
+                        .header { 
+                            text-align: center; 
+                            margin-bottom: 40px;
+                            padding-bottom: 20px;
+                            border-bottom: 3px solid #667eea;
+                        }
+                        .header h1 {
+                            color: #667eea;
+                            margin-bottom: 10px;
+                        }
+                        .content { max-width: 600px; margin: 0 auto; }
+                        .detail { 
+                            margin: 15px 0; 
+                            padding: 15px; 
+                            background: #f8f9fa;
+                            border-left: 4px solid #667eea;
+                            border-radius: 0 8px 8px 0;
+                        }
+                        .label { 
+                            font-weight: bold; 
+                            color: #666;
+                            font-size: 12px;
+                            text-transform: uppercase;
+                            letter-spacing: 1px;
+                        }
+                        .value {
+                            font-size: 16px;
+                            color: #1a1a3a;
+                            margin-top: 5px;
+                        }
+                        .complaint-id {
+                            text-align: center;
+                            padding: 25px;
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            color: white;
+                            border-radius: 12px;
+                            margin: 30px 0;
+                        }
+                        .complaint-id .label {
+                            color: rgba(255,255,255,0.8);
+                        }
+                        .complaint-id .value {
+                            color: white;
+                            font-size: 24px;
+                            font-weight: bold;
+                            letter-spacing: 2px;
+                        }
+                        .footer { 
+                            text-align: center; 
+                            margin-top: 40px; 
+                            padding-top: 20px;
+                            border-top: 1px solid #eee;
+                            font-size: 12px; 
+                            color: #666; 
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>🏛️ Smart City Services</h1>
+                        <p>AI-Powered Call Center - Complaint Confirmation</p>
+                    </div>
+                    <div class="content">
+                        <div class="complaint-id">
+                            <div class="label">Complaint ID</div>
+                            <div class="value">${complaintId}</div>
+                        </div>
+                        <div class="detail">
+                            <div class="label">Complaint Type</div>
+                            <div class="value">${currentState.complaint?.type || '-'}</div>
+                        </div>
+                        <div class="detail">
+                            <div class="label">Address</div>
+                            <div class="value">${currentState.address?.houseNo || '-'}, ${currentState.address?.area || '-'}, ${currentState.address?.ward || '-'}, ${currentState.address?.zone || '-'}</div>
+                        </div>
+                        <div class="detail">
+                            <div class="label">Phone Number</div>
+                            <div class="value">${currentState.userDetails?.phoneNumber || '-'}</div>
+                        </div>
+                        <div class="detail">
+                            <div class="label">Submitted On</div>
+                            <div class="value">${new Date().toLocaleString()}</div>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <p>Thank you for using AI Smart Call Center. Please keep this ID for your records.</p>
+                        <p>Support: 1800-HELP-NOW | support@smartcallcenter.gov</p>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            const printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.print();
+
+            if (CONFIG.DEBUG) {
+                console.log('Printing complaint confirmation');
+            }
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) existingToast.remove();
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ️'}</span> ${message}`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+            loadComplaintId();
+
+            // Launch confetti after a short delay
+            setTimeout(launchConfetti, 500);
+        });
+    </script>
+
+    <style>
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            transition: var(--transition-base);
+        }
+
+        .progress-step.completed .step-circle {
+            background: var(--success-gradient);
+            border-color: transparent;
+            color: white;
+        }
+
+        .progress-step span {
+            font-size: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .progress-line {
+            flex: 1;
+            height: 3px;
+            background: var(--glass-border);
+            margin: 0 10px 25px;
+            max-width: 80px;
+        }
+
+        .progress-line.active {
+            background: var(--success-gradient);
+        }
+
+        /* Workflow Timeline */
+        .workflow-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            position: relative;
+        }
+
+        .workflow-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 25px;
+            width: 2px;
+            height: calc(100% + var(--space-md));
+            background: var(--glass-border);
+        }
+
+        .workflow-step.completed:not(:last-child)::after {
+            background: var(--success-gradient);
+        }
+
+        .workflow-step.active:not(:last-child)::after {
+            background: linear-gradient(to bottom, rgba(56, 239, 125, 1) 0%, var(--glass-border) 100%);
+        }
+
+        .workflow-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            z-index: 1;
+        }
+
+        .workflow-step.completed .workflow-dot {
+            background: var(--success-gradient);
+            border-color: transparent;
+        }
+
+        .workflow-step.active .workflow-dot {
+            background: var(--primary-gradient);
+            border-color: transparent;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+            }
+        }
+
+        .workflow-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .workflow-label {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .workflow-step.pending .workflow-label {
+            color: var(--text-muted);
+        }
+
+        .workflow-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .workflow-step.active .workflow-time {
+            color: var(--text-accent);
+        }
+
+        @media (max-width: 600px) {
+            .progress-steps {
+                transform: scale(0.85);
+            }
+        }
+    </style>
+</body>
+
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Vadodara Nagar Samwad - AI-Powered Municipal Call Center for registering complaints using voice-enabled AI technology">
+    <meta name="keywords" content="Vadodara, Municipal Corporation, Complaint Registration, AI, Voice, Smart City">
+    <meta name="author" content="Vadodara Municipal Corporation">
+    <title>Vadodara Nagar Samwad | AI-Powered Municipal Call Center</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="index.html" class="nav-brand">
+            <span class="emblem">🏛️</span>
+            <div class="nav-brand-text">
+                <span class="title">Vadodara Nagar Samwad</span>
+                <span class="subtitle">वडोदरा नगर संवाद | વડોદરા નગર સંવાદ</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="complaint.html" class="nav-link">Register Complaint</a>
+            <a href="call.html" class="nav-link">Voice Call</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="call.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                Start AI Call
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-inner">
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    <span>AI-Powered • 24/7 Available</span>
+                </div>
+                <h1 class="hero-title">
+                    Smart Municipal<br>
+                    <span class="highlight">Complaint System</span>
+                </h1>
+                <p class="hero-description">
+                    Register your civic complaints instantly using our AI-powered voice call system.
+                    Speak in English, Hindi, or Gujarati and let our intelligent system process your complaint
+                    for faster resolution.
+                </p>
+                <div class="hero-buttons">
+                    <a href="call.html" class="btn-hero-primary">
+                        Start Voice Call
+                    </a>
+                    <a href="complaint.html" class="btn-hero-secondary">
+                        Manual Registration
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <div class="hero-card-header">
+
+                        <div>
+                            <div class="hero-card-title">AI Voice Assistant</div>
+                            <div class="hero-card-subtitle">Speak naturally to register</div>
+                        </div>
+                    </div>
+                    <div class="hero-languages">
+                        <span class="lang-badge">🇮🇳 English</span>
+                        <span class="lang-badge">हिंदी</span>
+                        <span class="lang-badge">ગુજરાતી</span>
+                    </div>
+                    <div class="hero-features">
+                        <div class="hero-feature">
+                            <span class="hero-feature-icon">✓</span>
+                            <span>Instant complaint registration</span>
+                        </div>
+                        <div class="hero-feature">
+                            <span class="hero-feature-icon">✓</span>
+                            <span>Real-time status tracking</span>
+                        </div>
+                        <div class="hero-feature">
+                            <span class="hero-feature-icon">✓</span>
+                            <span>Automatic department routing</span>
+                        </div>
+                        <div class="hero-feature">
+                            <span class="hero-feature-icon">✓</span>
+                            <span>SMS & Email notifications</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-wrapper">
+        <!-- Stats Section -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-badge">Live Statistics</span>
+                <h2 class="section-title">Our Performance at a Glance</h2>
+                <p class="section-subtitle">Real-time data showing the efficiency of our complaint resolution system</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="icon">📝</div>
+                    <div class="number" id="totalComplaints">2,547</div>
+                    <div class="label">Total Complaints</div>
+                </div>
+                <div class="stat-box">
+                    <div class="icon">✅</div>
+                    <div class="number" id="resolvedComplaints">2,189</div>
+                    <div class="label">Resolved</div>
+                </div>
+                <div class="stat-box">
+                    <div class="icon">⏳</div>
+                    <div class="number" id="pendingComplaints">358</div>
+                    <div class="label">In Progress</div>
+                </div>
+                <div class="stat-box">
+                    <div class="icon">⚡</div>
+                    <div class="number">2.3 Days</div>
+                    <div class="label">Avg. Resolution Time</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-badge">🛠️ Our Services</span>
+                <h2 class="section-title">What Complaints We Handle</h2>
+                <p class="section-subtitle">Click on any category to register your complaint immediately</p>
+            </div>
+            <div class="services-grid">
+                <a href="complaint.html?type=street-light" class="service-card" style="text-decoration: none;">
+
+                    <h3 class="service-title">Street Light</h3>
+                    <p class="service-desc">Report non-working street lights, damaged poles, or electrical issues in
+                        your area</p>
+                </a>
+                <a href="complaint.html?type=water-supply" class="service-card" style="text-decoration: none;">
+
+                    <h3 class="service-title">Water Supply</h3>
+                    <p class="service-desc">Report water supply issues, leakages, contamination, or irregular timing</p>
+                </a>
+                <a href="complaint.html?type=road-damage" class="service-card" style="text-decoration: none;">
+
+                    <h3 class="service-title">Road Damage</h3>
+                    <p class="service-desc">Report potholes, damaged roads, broken footpaths, or road safety concerns
+                    </p>
+                </a>
+                <a href="complaint.html?type=garbage" class="service-card" style="text-decoration: none;">
+
+                    <h3 class="service-title">Garbage & Sanitation</h3>
+                    <p class="service-desc">Report garbage collection issues, overflowing bins, or sanitation problems
+                    </p>
+                </a>
+                <a href="complaint.html?type=drainage" class="service-card" style="text-decoration: none;">
+
+                    <h3 class="service-title">Drainage</h3>
+                    <p class="service-desc">Report blocked drains, sewage overflow, or waterlogging issues</p>
+                </a>
+                <a href="complaint.html" class="service-card" style="text-decoration: none;">
+
+                    <h3 class="service-title">Other Issues</h3>
+                    <p class="service-desc">Any other municipal services or civic issues you want to report</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-badge">📋 How It Works</span>
+                <h2 class="section-title">Simple 4-Step Process</h2>
+                <p class="section-subtitle">Register your complaint in under 2 minutes</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4 class="step-title">Start Voice Call</h4>
+                    <p class="step-desc">Click on 'Start AI Call' and allow microphone access</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4 class="step-title">Describe Issue</h4>
+                    <p class="step-desc">Speak about your complaint naturally in any language</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4 class="step-title">Provide Details</h4>
+                    <p class="step-desc">Share your address and contact information</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4 class="step-title">Get Complaint ID</h4>
+                    <p class="step-desc">Receive unique ID to track your complaint status</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chart Section -->
+        <section class="section">
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h3>📈 Complaint Analytics</h3>
+                    <a href="dashboard.html" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                        View Full Dashboard →
+                    </a>
+                </div>
+                <div class="chart-wrapper" style="height: 350px;">
+                    <canvas id="complaintsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="section">
+            <div class="cta-section">
+                <div class="cta-content">
+                    <h2 class="cta-title">Ready to Register Your Complaint?</h2>
+                    <p class="cta-desc">
+                        Our AI-powered system is available 24/7 to help you. Start a voice call now and let our
+                        intelligent assistant guide you through the process.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="call.html" class="btn-hero-primary">
+                            Start AI Voice Call
+                        </a>
+                        <a href="complaint.html" class="btn-hero-secondary">
+                            Register Manually
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo-text"> Vadodara Nagar Samwad</div>
+                <p>AI-Powered Municipal Complaint Registration System. Making civic services accessible to every citizen
+                    through intelligent voice technology.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="complaint.html">Register Complaint</a></li>
+                    <li><a href="call.html">Voice Call</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="dashboard.html#reports">Reports & Operators</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Complaint Types</h4>
+                <ul>
+                    <li><a href="complaint.html">Street Light</a></li>
+                    <li><a href="complaint.html">Water Supply</a></li>
+                    <li><a href="complaint.html">Road Damage</a></li>
+                    <li><a href="complaint.html">Garbage</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li>📞 Helpline: 1800-233-5500</li>
+                    <li>📧 support@vmc.gov.in</li>
+                    <li>🏢 Municipal Corporation</li>
+                    <li>📍 Vadodara, Gujarat</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Vadodara Municipal Corporation. All Rights Reserved.</p>
+            <p>Developed under Smart City Mission | Powered by AI Technology</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/config.js"></script>
+    <script src="js/landing.js"></script>
+</body>
+
+</html>

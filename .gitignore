@@ -1,0 +1,17 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment and secrets
+.env
+*.env
+
+# Databases
+*.db
+*.sqlite3
+
+# OS/editor noise
+.DS_Store
+Thumbs.db

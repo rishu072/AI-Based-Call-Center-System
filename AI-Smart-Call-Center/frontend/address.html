@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Enter your address details for complaint registration">
+    <title>Enter Address | Vadodara Nagar Samwad</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📍</text></svg>">
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="index.html" class="nav-brand">
+            <span class="emblem">🏛️</span>
+            <div class="nav-brand-text">
+                <span class="title">Vadodara Nagar Samwad</span>
+                <span class="subtitle">वडोदरा नगर संवाद | વડોદરા નગર સંવાદ</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="complaint.html" class="nav-link">Register Complaint</a>
+            <a href="call.html" class="nav-link">Voice Call</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="call.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                Start AI Call
+            </a>
+        </div>
+    </nav>
+
+    <div class="address-container">
+        <!-- Page Header -->
+        <header class="address-header">
+            <h1>📍 Enter Your Details</h1>
+            <p>Please provide your complete address and contact information</p>
+        </header>
+
+        <main class="address-main">
+            <!-- Progress Indicator -->
+            <div class="progress-steps" style="max-width: 600px; margin: 0 auto var(--space-xl);">
+                <div class="progress-step completed">
+                    <div class="step-circle">✓</div>
+                    <span>Type</span>
+                </div>
+                <div class="progress-line active"></div>
+                <div class="progress-step active">
+                    <div class="step-circle">2</div>
+                    <span>Details</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-circle">3</div>
+                    <span>Review</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-circle">4</div>
+                    <span>Done</span>
+                </div>
+            </div>
+
+            <form id="addressForm" class="address-form glass-card">
+                <div class="form-section">
+                    <h3 class="section-title"> Address Information</h3>
+
+                    <div class="form-group">
+                        <label for="houseNo">House No. / Building No. <span class="required">*</span></label>
+                        <input type="text" id="houseNo" name="houseNo" class="form-input"
+                            placeholder="Enter house or building number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="area">Area / Locality <span class="required">*</span></label>
+                        <input type="text" id="area" name="area" class="form-input"
+                            placeholder="Enter area or locality name" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ward">Ward <span class="required">*</span></label>
+                            <select id="ward" name="ward" class="form-select" required>
+                                <option value="">Select Ward</option>
+                                <option value="Ward 1">Ward 1 (Central)</option>
+                                <option value="Ward 2">Ward 2 (Central)</option>
+                                <option value="Ward 3">Ward 3 (North)</option>
+                                <option value="Ward 4">Ward 4 (North)</option>
+                                <option value="Ward 5">Ward 5 (East)</option>
+                                <option value="Ward 6">Ward 6 (East)</option>
+                                <option value="Ward 7">Ward 7 (South)</option>
+                                <option value="Ward 8">Ward 8 (South)</option>
+                                <option value="Ward 9">Ward 9 (West)</option>
+                                <option value="Ward 10">Ward 10 (West)</option>
+                                <option value="Ward 11">Ward 11 (Central)</option>
+                                <option value="Ward 12">Ward 12 (North)</option>
+                                <option value="Ward 13">Ward 13 (East)</option>
+                                <option value="Ward 14">Ward 14 (South)</option>
+                                <option value="Ward 15">Ward 15 (West)</option>
+                                <option value="Ward 16">Ward 16 (Central)</option>
+                                <option value="Ward 17">Ward 17 (North)</option>
+                                <option value="Ward 18">Ward 18 (South)</option>
+                                <option value="Ward 19">Ward 19 (East)</option>
+                            </select>
+                            <div id="autoDetectBadge" class="auto-detect-badge" style="display: none;">
+                                ✓ Auto-detected
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="zone">Zone <span class="required">*</span></label>
+                            <select id="zone" name="zone" class="form-select" required>
+                                <option value="">Select Zone</option>
+                                <option value="North">North (ઉત્તર / उत्तर)</option>
+                                <option value="South">South (દક્ષિણ / दक्षिण)</option>
+                                <option value="East">East (પૂર્વ / पूर्व)</option>
+                                <option value="West">West (પશ્ચિમ / पश्चिम)</option>
+                                <option value="Central">Central (મધ્ય / मध्य)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title"> Contact Information</h3>
+
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input"
+                            placeholder="Enter your 10-digit phone number" pattern="[0-9]{10}" maxlength="10" required>
+                        <small class="form-hint">We will use this number to contact you about your complaint</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Additional Details (Optional)</label>
+                        <textarea id="description" name="description" class="form-input form-textarea"
+                            placeholder="Describe your complaint in detail (optional)" rows="4"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        Review & Submit →
+                    </button>
+                    <a href="complaint.html" class="btn btn-secondary">← Go Back</a>
+                </div>
+            </form>
+        </main>
+
+        <footer class="address-footer">
+            <p>Vadodara Nagar Samwad © 2026 | Municipal Corporation</p>
+        </footer>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/flow.js"></script>
+    <script src="js/ui.js"></script>
+    <script>
+        // Generate floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.width = (Math.random() * 4 + 2) + 'px';
+                particle.style.height = particle.style.width;
+                container.appendChild(particle);
+            }
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) existingToast.remove();
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ️'}</span> ${message}`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            // Pre-populate form if data exists in state
+            const currentState = getState();
+
+            if (currentState.address) {
+                if (currentState.address.houseNo) {
+                    document.getElementById('houseNo').value = currentState.address.houseNo;
+                }
+                if (currentState.address.area) {
+                    document.getElementById('area').value = currentState.address.area;
+                }
+                if (currentState.address.ward) {
+                    document.getElementById('ward').value = currentState.address.ward;
+                }
+                if (currentState.address.zone) {
+                    document.getElementById('zone').value = currentState.address.zone;
+                }
+            }
+
+            if (currentState.userDetails) {
+                if (currentState.userDetails.phoneNumber) {
+                    document.getElementById('phoneNumber').value = currentState.userDetails.phoneNumber;
+                }
+                if (currentState.userDetails.description) {
+                    document.getElementById('description').value = currentState.userDetails.description;
+                }
+            }
+
+            // Show complaint type if available
+            if (currentState.complaint && currentState.complaint.type) {
+                const subCatText = currentState.complaint.subCategoryText ? ` - ${currentState.complaint.subCategoryText}` : '';
+                showToast(`Complaint: ${currentState.complaint.type}${subCatText}`, 'info');
+            }
+
+            // Set up area auto-detection
+            setupAreaAutoDetect();
+        });
+
+        // Setup auto-detection of ward/zone from area name
+        let autoDetectTimeout = null;
+        function setupAreaAutoDetect() {
+            const areaInput = document.getElementById('area');
+
+            areaInput.addEventListener('input', function () {
+                // Debounce the auto-detection
+                if (autoDetectTimeout) {
+                    clearTimeout(autoDetectTimeout);
+                }
+
+                autoDetectTimeout = setTimeout(async () => {
+                    const areaName = this.value.trim();
+                    if (areaName.length >= 3) {
+                        await autoDetectLocation(areaName);
+                    }
+                }, 500);
+            });
+
+            areaInput.addEventListener('blur', async function () {
+                const areaName = this.value.trim();
+                if (areaName.length >= 3) {
+                    await autoDetectLocation(areaName);
+                }
+            });
+        }
+
+        // Auto-detect location from area name
+        async function autoDetectLocation(areaName) {
+            try {
+                const response = await fetch(`${CONFIG.API.BASE_URL}/api/vmc/detect-location`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ area: areaName, text: areaName })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.location && data.auto_detected) {
+                    // Auto-fill ward and zone
+                    if (data.location.ward) {
+                        document.getElementById('ward').value = data.location.ward;
+                    }
+                    if (data.location.zone) {
+                        document.getElementById('zone').value = data.location.zone;
+                    }
+
+                    // Show auto-detect badge
+                    const badge = document.getElementById('autoDetectBadge');
+                    if (badge) {
+                        badge.style.display = 'inline-block';
+                        badge.style.animation = 'fadeIn 0.3s ease';
+                    }
+
+                    showToast(`Location detected: ${data.location.ward}, ${data.location.zone} Zone`, 'success');
+                }
+            } catch (error) {
+                console.log('Auto-detection not available:', error.message);
+                // Fallback to local detection
+                localAutoDetect(areaName);
+            }
+        }
+
+        // Local fallback for area detection
+        function localAutoDetect(areaName) {
+            const knownAreas = {
+                'alkapuri': { ward: 'Ward 1', zone: 'Central' },
+                'sayajigunj': { ward: 'Ward 1', zone: 'Central' },
+                'fatehgunj': { ward: 'Ward 2', zone: 'Central' },
+                'akota': { ward: 'Ward 3', zone: 'North' },
+                'karelibaug': { ward: 'Ward 4', zone: 'North' },
+                'harni': { ward: 'Ward 5', zone: 'East' },
+                'gorwa': { ward: 'Ward 6', zone: 'East' },
+                'chhani': { ward: 'Ward 7', zone: 'South' },
+                'vadsar': { ward: 'Ward 8', zone: 'South' },
+                'productivity road': { ward: 'Ward 9', zone: 'West' },
+                'ajwa road': { ward: 'Ward 10', zone: 'West' },
+                'gotri': { ward: 'Ward 12', zone: 'North' },
+                'makarpura': { ward: 'Ward 13', zone: 'East' },
+                'subhanpura': { ward: 'Ward 17', zone: 'North' }
+            };
+
+            const lowerArea = areaName.toLowerCase();
+            for (const [area, location] of Object.entries(knownAreas)) {
+                if (lowerArea.includes(area) || area.includes(lowerArea)) {
+                    document.getElementById('ward').value = location.ward;
+                    document.getElementById('zone').value = location.zone;
+
+                    const badge = document.getElementById('autoDetectBadge');
+                    if (badge) badge.style.display = 'inline-block';
+
+                    showToast(`Location detected: ${location.ward}, ${location.zone} Zone`, 'success');
+                    break;
+                }
+            }
+        }
+
+        // Phone number input validation
+        document.getElementById('phoneNumber').addEventListener('input', function (e) {
+            // Remove non-numeric characters
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        document.getElementById('addressForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get form values
+            const phoneNumber = document.getElementById('phoneNumber').value;
+
+            // Validate phone number
+            if (!/^\d{10}$/.test(phoneNumber)) {
+                showToast('Please enter a valid 10-digit phone number', 'error');
+                return;
+            }
+
+            const addressData = {
+                houseNo: document.getElementById('houseNo').value,
+                area: document.getElementById('area').value,
+                ward: document.getElementById('ward').value,
+                zone: document.getElementById('zone').value
+            };
+
+            const userDetails = {
+                phoneNumber: phoneNumber,
+                description: document.getElementById('description').value
+            };
+
+            if (CONFIG.APP.DEBUG) {
+                console.log('Address data:', addressData);
+                console.log('User details:', userDetails);
+            }
+
+            // Save data to state
+            setState({
+                address: addressData,
+                userDetails: userDetails,
+                currentStep: 'review'
+            });
+
+            showToast('Details saved! Redirecting to review...', 'success');
+
+            // Navigate to review page
+            setTimeout(() => {
+                window.location.href = 'review.html';
+            }, 800);
+        });
+    </script>
+
+    <style>
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            transition: var(--transition-base);
+        }
+
+        .progress-step.completed .step-circle {
+            background: var(--success-gradient);
+            border-color: transparent;
+            color: white;
+        }
+
+        .progress-step.active .step-circle {
+            background: var(--primary-gradient);
+            border-color: transparent;
+            color: white;
+            box-shadow: var(--glow-primary);
+        }
+
+        .progress-step span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .progress-step.active span,
+        .progress-step.completed span {
+            color: var(--text-primary);
+        }
+
+        .progress-line {
+            flex: 1;
+            height: 3px;
+            background: var(--glass-border);
+            margin: 0 10px 25px;
+            max-width: 80px;
+        }
+
+        .progress-line.active {
+            background: var(--primary-gradient);
+        }
+
+        @media (max-width: 600px) {
+            .progress-steps {
+                transform: scale(0.85);
+            }
+        }
+
+        /* Auto-detect badge */
+        .auto-detect-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--success-gradient);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            margin-top: var(--space-xs);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</body>
+
+</html>

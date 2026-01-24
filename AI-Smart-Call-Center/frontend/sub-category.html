@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Select specific issue type for your complaint">
+    <title>Select Issue Type | Vadodara Nagar Samwad</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <style>
+        .sub-category-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-xl);
+        }
+
+        .complaint-type-header {
+            text-align: center;
+            padding: var(--space-lg);
+            background: var(--glass-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--glass-border);
+            margin-bottom: var(--space-xl);
+        }
+
+        .complaint-type-header .icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .complaint-type-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sub-category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .sub-category-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sub-category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .sub-category-card:hover::before,
+        .sub-category-card.selected::before {
+            transform: scaleX(1);
+        }
+
+        .sub-category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+            border-color: var(--primary);
+        }
+
+        .sub-category-card.selected {
+            border-color: var(--primary);
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .sub-category-card .check-mark {
+            position: absolute;
+            top: var(--space-sm);
+            right: var(--space-sm);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--success-gradient);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .sub-category-card.selected .check-mark {
+            display: flex;
+        }
+
+        .sub-category-card h4 {
+            margin: 0 0 var(--space-xs);
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .sub-category-card p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .language-tabs {
+            display: flex;
+            gap: var(--space-sm);
+            justify-content: center;
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+        }
+
+        .language-tab {
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-full);
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .language-tab:hover,
+        .language-tab.active {
+            background: var(--primary-gradient);
+            color: rgb(242, 237, 237);
+            border-color: transparent;
+        }
+
+        .ivr-question {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-xl);
+            text-align: center;
+        }
+
+        .ivr-question .speaker-icon {
+            font-size: 2rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .ivr-question p {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: var(--space-sm);
+        }
+
+        .priority-high {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff5252;
+        }
+
+        .priority-medium {
+            background: rgba(255, 171, 0, 0.2);
+            color: #ffab00;
+        }
+
+        .priority-normal {
+            background: rgba(56, 239, 125, 0.2);
+            color: #38ef7d;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="index.html" class="nav-brand">
+            <span class="emblem">🏛️</span>
+            <div class="nav-brand-text">
+                <span class="title">Vadodara Nagar Samwad</span>
+                <span class="subtitle">वडोदरा नगर संवाद | વડોદરા નગર સંવાદ</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="complaint.html" class="nav-link active">Register Complaint</a>
+            <a href="call.html" class="nav-link">Voice Call</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="call.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                Start AI Call
+            </a>
+        </div>
+    </nav>
+
+    <div class="sub-category-container">
+        <header class="complaint-header">
+            <h1>📋 Describe Your Issue</h1>
+            <p>Select the specific problem you are facing</p>
+        </header>
+
+        <main>
+            <!-- Complaint Type Header -->
+            <div class="complaint-type-header" id="typeHeader">
+                <div class="icon" id="typeIcon">💡</div>
+                <h2 id="typeName">Street Light</h2>
+                <p id="typeNameLocal" style="color: var(--text-muted); margin-top: var(--space-xs);"></p>
+            </div>
+
+            <!-- Language Selection -->
+            <div class="language-tabs">
+                <button class="language-tab active" data-lang="en">English</button>
+                <button class="language-tab" data-lang="hi">हिंदी</button>
+                <button class="language-tab" data-lang="gu">ગુજરાતી</button>
+            </div>
+
+            <!-- IVR Question -->
+            <div class="ivr-question" id="ivrQuestion">
+                <div class="speaker-icon"></div>
+                <p id="ivrQuestionText">Please select what type of issue you are facing with the street light.</p>
+                <button id="playQuestion" class="btn btn-secondary" style="margin-top: var(--space-md);">
+                    Play Audio
+                </button>
+            </div>
+
+            <!-- Sub-categories Grid -->
+            <div class="sub-category-grid" id="subCategoryGrid">
+                <!-- Sub-categories will be loaded dynamically -->
+            </div>
+
+            <div class="navigation-buttons" style="justify-content: center; gap: var(--space-md);">
+                <a href="complaint.html" class="btn btn-secondary">← Back to Categories</a>
+                <button id="continueBtn" class="btn btn-primary" disabled>Continue →</button>
+            </div>
+        </main>
+
+        <footer class="complaint-footer">
+            <p>Vadodara Nagar Samwad © 2026 | Municipal Corporation</p>
+        </footer>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/speech.js"></script>
+    <script src="js/ui.js"></script>
+    <script>
+        // Generate floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 25;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.width = (Math.random() * 4 + 2) + 'px';
+                particle.style.height = particle.style.width;
+                container.appendChild(particle);
+            }
+        }
+
+        // Page state
+        let currentLanguage = 'en';
+        let complaintType = '';
+        let selectedSubCategory = null;
+        let subCategories = [];
+
+        // Icon mapping
+        const typeIcons = {
+            'Street Light': '💡',
+            'Water Supply': '💧',
+            'Road Damage': '🛣️',
+            'Garbage': '🗑️',
+            'Drainage': '🚿',
+            'Other': '📝'
+        };
+
+        // Priority sub-categories
+        const highPrioritySubs = ['current_leakage', 'wire_issue', 'main_line_burst', 'manhole_open', 'drain_overflow'];
+        const mediumPrioritySubs = ['pole_damaged', 'no_water', 'pothole', 'dead_animal', 'drain_blocked'];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async function () {
+            createParticles();
+
+            // Get complaint type from state
+            const state = getState();
+            complaintType = state.complaint?.type || '';
+
+            if (!complaintType) {
+                // No complaint type selected, redirect
+                window.location.href = 'complaint.html';
+                return;
+            }
+
+            // Update header
+            document.getElementById('typeIcon').textContent = typeIcons[complaintType] || '📋';
+            document.getElementById('typeName').textContent = complaintType;
+
+            // Load sub-categories
+            await loadSubCategories();
+
+            // Load IVR question
+            await loadIVRQuestion();
+
+            // Setup event listeners
+            setupEventListeners();
+        });
+
+        async function loadSubCategories() {
+            try {
+                const response = await fetch(`${CONFIG.API.BASE_URL}/api/vmc/sub-categories/${encodeURIComponent(complaintType)}?language=${currentLanguage}`);
+                const data = await response.json();
+
+                if (data.success && data.sub_categories) {
+                    subCategories = data.sub_categories;
+                    renderSubCategories();
+                }
+            } catch (error) {
+                console.error('Error loading sub-categories:', error);
+                // Fallback to default sub-categories
+                loadDefaultSubCategories();
+            }
+        }
+
+        function loadDefaultSubCategories() {
+            // Fallback sub-categories
+            const fallbackSubs = {
+                'Street Light': [
+                    { id: 'light_off', text: 'Light is not working / Off' },
+                    { id: 'pole_damaged', text: 'Pole is damaged / Tilted' },
+                    { id: 'current_leakage', text: 'Current leakage / Electric shock hazard' },
+                    { id: 'flickering', text: 'Light is flickering' },
+                    { id: 'dim_light', text: 'Light is dim / Low brightness' },
+                    { id: 'wire_issue', text: 'Wire hanging / Exposed wire' }
+                ],
+                'Water Supply': [
+                    { id: 'no_water', text: 'No water supply' },
+                    { id: 'low_pressure', text: 'Low water pressure' },
+                    { id: 'dirty_water', text: 'Dirty / Contaminated water' },
+                    { id: 'pipe_leakage', text: 'Pipe leakage' },
+                    { id: 'main_line_burst', text: 'Main water line burst' },
+                    { id: 'irregular_supply', text: 'Irregular water supply timing' }
+                ],
+                'Road Damage': [
+                    { id: 'pothole', text: 'Pothole on road' },
+                    { id: 'road_broken', text: 'Road surface broken / Damaged' },
+                    { id: 'waterlogging', text: 'Water logging on road' },
+                    { id: 'footpath_damaged', text: 'Footpath / Sidewalk damaged' },
+                    { id: 'divider_damaged', text: 'Road divider damaged' },
+                    { id: 'speed_breaker', text: 'Speed breaker issue' }
+                ],
+                'Garbage': [
+                    { id: 'not_collected', text: 'Garbage not collected' },
+                    { id: 'overflowing_bin', text: 'Overflowing garbage bin' },
+                    { id: 'illegal_dumping', text: 'Illegal garbage dumping' },
+                    { id: 'no_dustbin', text: 'No dustbin in area' },
+                    { id: 'dead_animal', text: 'Dead animal on road' },
+                    { id: 'construction_waste', text: 'Construction waste / Debris' }
+                ],
+                'Drainage': [
+                    { id: 'drain_blocked', text: 'Drain is blocked' },
+                    { id: 'drain_overflow', text: 'Drain overflowing' },
+                    { id: 'no_drain', text: 'No drainage system' },
+                    { id: 'bad_smell', text: 'Bad smell from drain' },
+                    { id: 'manhole_open', text: 'Manhole cover missing / Open' }
+                ]
+            };
+
+            subCategories = fallbackSubs[complaintType] || [];
+            renderSubCategories();
+        }
+
+        function renderSubCategories() {
+            const grid = document.getElementById('subCategoryGrid');
+            grid.innerHTML = '';
+
+            subCategories.forEach(sub => {
+                const card = document.createElement('div');
+                card.className = 'sub-category-card';
+                card.dataset.id = sub.id;
+
+                // Determine priority
+                let priorityBadge = '';
+                if (highPrioritySubs.includes(sub.id)) {
+                    priorityBadge = '<span class="priority-badge priority-high">Urgent</span>';
+                } else if (mediumPrioritySubs.includes(sub.id)) {
+                    priorityBadge = '<span class="priority-badge priority-medium">Priority</span>';
+                }
+
+                card.innerHTML = `
+                    <div class="check-mark">✓</div>
+                    <h4>${sub.text}${priorityBadge}</h4>
+                    <p>Click to select this issue type</p>
+                `;
+
+                card.addEventListener('click', () => selectSubCategory(sub.id, card));
+                grid.appendChild(card);
+            });
+        }
+
+        async function loadIVRQuestion() {
+            try {
+                const response = await fetch(`${CONFIG.API.BASE_URL}/api/vmc/ivr-question`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        complaint_type: complaintType,
+                        question_type: 'initial',
+                        language: currentLanguage
+                    })
+                });
+                const data = await response.json();
+
+                if (data.success && data.question) {
+                    document.getElementById('ivrQuestionText').textContent = data.question;
+                }
+            } catch (error) {
+                console.error('Error loading IVR question:', error);
+            }
+        }
+
+        function selectSubCategory(subId, cardElement) {
+            // Deselect previous
+            document.querySelectorAll('.sub-category-card').forEach(c => c.classList.remove('selected'));
+
+            // Select current
+            cardElement.classList.add('selected');
+            selectedSubCategory = subId;
+
+            // Enable continue button
+            document.getElementById('continueBtn').disabled = false;
+
+            // Show toast
+            showToast(`Selected: ${subCategories.find(s => s.id === subId)?.text || subId}`, 'success');
+        }
+
+        function setupEventListeners() {
+            // Language tabs
+            document.querySelectorAll('.language-tab').forEach(tab => {
+                tab.addEventListener('click', async function () {
+                    document.querySelectorAll('.language-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentLanguage = this.dataset.lang;
+
+                    // Reload sub-categories and IVR question
+                    await loadSubCategories();
+                    await loadIVRQuestion();
+
+                    // Update local name
+                    updateLocalName();
+                });
+            });
+
+            // Play question button
+            document.getElementById('playQuestion').addEventListener('click', async function () {
+                const questionText = document.getElementById('ivrQuestionText').textContent;
+
+                // Use browser TTS or API
+                if (typeof speak === 'function') {
+                    speak(questionText, currentLanguage);
+                } else {
+                    // Fallback to API
+                    try {
+                        const response = await fetch(`${CONFIG.API.BASE_URL}/api/tts/generate`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                text: questionText,
+                                language: currentLanguage
+                            })
+                        });
+                        const data = await response.json();
+                        if (data.audio_url) {
+                            const audio = new Audio(`${CONFIG.API.BASE_URL}${data.audio_url}`);
+                            audio.play();
+                        }
+                    } catch (error) {
+                        console.error('Error playing audio:', error);
+                    }
+                }
+            });
+
+            // Continue button
+            document.getElementById('continueBtn').addEventListener('click', function () {
+                if (!selectedSubCategory) {
+                    showToast('Please select an issue type', 'error');
+                    return;
+                }
+
+                // Save to state
+                setState({
+                    complaint: {
+                        type: complaintType,
+                        subCategory: selectedSubCategory,
+                        subCategoryText: subCategories.find(s => s.id === selectedSubCategory)?.text || ''
+                    },
+                    currentStep: 'address'
+                });
+
+                // Navigate to address page
+                window.location.href = 'address.html';
+            });
+        }
+
+        function updateLocalName() {
+            const localNames = {
+                'Street Light': { hi: 'स्ट्रीट लाइट', gu: 'સ્ટ્રીટ લાઇટ' },
+                'Water Supply': { hi: 'पानी की आपूर्ति', gu: 'પાણી પુરવઠો' },
+                'Road Damage': { hi: 'सड़क क्षति', gu: 'રસ્તાનું નુકસાન' },
+                'Garbage': { hi: 'कचरा', gu: 'કચરો' },
+                'Drainage': { hi: 'नाली', gu: 'ડ્રેનેજ' }
+            };
+
+            const localName = localNames[complaintType]?.[currentLanguage] || '';
+            document.getElementById('typeNameLocal').textContent = localName;
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) existingToast.remove();
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ️'}</span> ${message}`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

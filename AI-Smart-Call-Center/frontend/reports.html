@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Reports & Operators - Vadodara Nagar Samwad">
+    <title>Reports & Operators | Vadodara Nagar Samwad</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .reports-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .reports-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .reports-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            border-top: 4px solid var(--primary);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .report-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .report-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-box {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+
+        .stat-box strong {
+            display: block;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-box span {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .operators-section {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 2rem;
+        }
+
+        .operators-section h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 1rem;
+        }
+
+        .operators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .operator-card {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .operator-card:hover {
+            background: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(26, 79, 139, 0.15);
+        }
+
+        .operator-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--saffron));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2.5rem;
+        }
+
+        .operator-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .operator-role {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .operator-stats {
+            display: flex;
+            justify-content: space-around;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .operator-stats div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .operator-stats strong {
+            color: var(--primary);
+            display: block;
+        }
+
+        .resolution-section {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 2rem;
+        }
+
+        .resolution-section h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 1rem;
+        }
+
+        .resolution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .resolution-item {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--success);
+        }
+
+        .resolution-item h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .resolution-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .resolution-details div {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 4px;
+        }
+
+        .resolution-details strong {
+            color: var(--primary);
+            display: block;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 2rem;
+        }
+
+        .chart-container h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .badge-resolved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-processing {
+            background: #cfe8fc;
+            color: #084298;
+        }
+
+        @media (max-width: 768px) {
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .operators-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .resolution-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="index.html" class="nav-brand">
+            <span class="emblem">🏛️</span>
+            <div class="nav-brand-text">
+                <span class="title">Vadodara Nagar Samwad</span>
+                <span class="subtitle">वडोदरा नगर संवाद | વડોદરા નગર સંવાદ</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="complaint.html" class="nav-link">Register Complaint</a>
+            <a href="call.html" class="nav-link">Voice Call</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="reports.html" class="nav-link active">Reports</a>
+
+        </div>
+    </nav>
+
+    <main>
+        <div class="reports-container">
+            <!-- Header -->
+            <div class="reports-header">
+                <h1>📊 Reports & Analytics</h1>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">Call Resolution Reports, Performance Metrics &
+                    Operator Information</p>
+            </div>
+
+            <!-- Quick Report Cards -->
+            <div class="reports-grid">
+                <div class="report-card">
+                    <h3>📞 Call Resolution</h3>
+                    <div class="report-stats">
+                        <div class="stat-box">
+                            <strong>2,189</strong>
+                            <span>Resolved</span>
+                        </div>
+                        <div class="stat-box">
+                            <strong>358</strong>
+                            <span>Pending</span>
+                        </div>
+                    </div>
+                    <div class="report-stats">
+                        <div class="stat-box">
+                            <strong>86%</strong>
+                            <span>Resolution Rate</span>
+                        </div>
+                        <div class="stat-box">
+                            <strong>2.3 d</strong>
+                            <span>Avg. Time</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <h3>👥 Operator Performance</h3>
+                    <div class="report-stats">
+                        <div class="stat-box">
+                            <strong>12</strong>
+                            <span>Active Operators</span>
+                        </div>
+                        <div class="stat-box">
+                            <strong>198</strong>
+                            <span>Avg. Calls/Day</span>
+                        </div>
+                    </div>
+                    <div class="report-stats">
+                        <div class="stat-box">
+                            <strong>94%</strong>
+                            <span>Satisfaction Rate</span>
+                        </div>
+                        <div class="stat-box">
+                            <strong>1.8 h</strong>
+                            <span>Avg. Response</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <h3>📈 Monthly Trends</h3>
+                    <div class="report-stats">
+                        <div class="stat-box">
+                            <strong>2,547</strong>
+                            <span>This Month</span>
+                        </div>
+                        <div class="stat-box">
+                            <strong>312</strong>
+                            <span>This Week</span>
+                        </div>
+                    </div>
+                    <div class="report-stats">
+                        <div class="stat-box">
+                            <strong>47</strong>
+                            <span>Today</span>
+                        </div>
+                        <div class="stat-box">
+                            <strong>↑ 12%</strong>
+                            <span>Growth</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="chart-container">
+                <h2>📉 Performance Charts</h2>
+                <div class="charts-grid">
+                    <div class="chart-wrapper">
+                        <canvas id="resolutionChart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="operatorChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call Resolution Section -->
+            <div class="resolution-section" id="reports">
+                <h2>📞 Call Resolution Reports</h2>
+                <div class="resolution-grid">
+                    <div class="resolution-item">
+                        <h4>Street Light Issues</h4>
+                        <span class="status-badge badge-resolved">Resolved: 580</span>
+                        <div class="resolution-details">
+                            <div>
+                                <strong>Total Calls</strong>
+                                650
+                            </div>
+                            <div>
+                                <strong>Resolution %</strong>
+                                89%
+                            </div>
+                            <div>
+                                <strong>Avg. Time</strong>
+                                2.1 days
+                            </div>
+                            <div>
+                                <strong>Status</strong>
+                                <span class="status-badge badge-resolved">Resolved</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resolution-item">
+                        <h4>Water Supply</h4>
+                        <span class="status-badge badge-processing">Processing: 120</span>
+                        <div class="resolution-details">
+                            <div>
+                                <strong>Total Calls</strong>
+                                890
+                            </div>
+                            <div>
+                                <strong>Resolution %</strong>
+                                87%
+                            </div>
+                            <div>
+                                <strong>Avg. Time</strong>
+                                2.4 days
+                            </div>
+                            <div>
+                                <strong>Status</strong>
+                                <span class="status-badge badge-processing">Processing</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resolution-item">
+                        <h4>Road Damage</h4>
+                        <span class="status-badge badge-resolved">Resolved: 420</span>
+                        <div class="resolution-details">
+                            <div>
+                                <strong>Total Calls</strong>
+                                520
+                            </div>
+                            <div>
+                                <strong>Resolution %</strong>
+                                81%
+                            </div>
+                            <div>
+                                <strong>Avg. Time</strong>
+                                2.8 days
+                            </div>
+                            <div>
+                                <strong>Status</strong>
+                                <span class="status-badge badge-resolved">Resolved</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resolution-item">
+                        <h4>Garbage Management</h4>
+                        <span class="status-badge badge-resolved">Resolved: 429</span>
+                        <div class="resolution-details">
+                            <div>
+                                <strong>Total Calls</strong>
+                                487
+                            </div>
+                            <div>
+                                <strong>Resolution %</strong>
+                                88%
+                            </div>
+                            <div>
+                                <strong>Avg. Time</strong>
+                                2.0 days
+                            </div>
+                            <div>
+                                <strong>Status</strong>
+                                <span class="status-badge badge-resolved">Resolved</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operators Section -->
+            <div class="operators-section">
+                <h2>👥 Operator Team & Performance</h2>
+                <div class="operators-grid">
+                    <div class="operator-card">
+                        <div class="operator-avatar">👨‍💼</div>
+                        <div class="operator-name">Rajesh Kumar</div>
+                        <div class="operator-role">Senior Call Handler</div>
+                        <div class="operator-stats">
+                            <div>
+                                <strong>487</strong>
+                                Calls
+                            </div>
+                            <div>
+                                <strong>96%</strong>
+                                Resolved
+                            </div>
+                            <div>
+                                <strong>4.8★</strong>
+                                Rating
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="operator-card">
+                        <div class="operator-avatar">👩‍💼</div>
+                        <div class="operator-name">Priya Sharma</div>
+                        <div class="operator-role">Call Center Manager</div>
+                        <div class="operator-stats">
+                            <div>
+                                <strong>523</strong>
+                                Calls
+                            </div>
+                            <div>
+                                <strong>94%</strong>
+                                Resolved
+                            </div>
+                            <div>
+                                <strong>4.9★</strong>
+                                Rating
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="operator-card">
+                        <div class="operator-avatar">👨‍💼</div>
+                        <div class="operator-name">Amit Patel</div>
+                        <div class="operator-role">Call Handler</div>
+                        <div class="operator-stats">
+                            <div>
+                                <strong>412</strong>
+                                Calls
+                            </div>
+                            <div>
+                                <strong>92%</strong>
+                                Resolved
+                            </div>
+                            <div>
+                                <strong>4.6★</strong>
+                                Rating
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="operator-card">
+                        <div class="operator-avatar">👩‍💼</div>
+                        <div class="operator-name">Neha Verma</div>
+                        <div class="operator-role">Technical Support</div>
+                        <div class="operator-stats">
+                            <div>
+                                <strong>398</strong>
+                                Calls
+                            </div>
+                            <div>
+                                <strong>91%</strong>
+                                Resolved
+                            </div>
+                            <div>
+                                <strong>4.7★</strong>
+                                Rating
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="operator-card">
+                        <div class="operator-avatar">👨‍💼</div>
+                        <div class="operator-name">Vikram Singh</div>
+                        <div class="operator-role">Senior Handler</div>
+                        <div class="operator-stats">
+                            <div>
+                                <strong>456</strong>
+                                Calls
+                            </div>
+                            <div>
+                                <strong>93%</strong>
+                                Resolved
+                            </div>
+                            <div>
+                                <strong>4.8★</strong>
+                                Rating
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="operator-card">
+                        <div class="operator-avatar">👩‍💼</div>
+                        <div class="operator-name">Anjali Desai</div>
+                        <div class="operator-role">Call Handler</div>
+                        <div class="operator-stats">
+                            <div>
+                                <strong>389</strong>
+                                Calls
+                            </div>
+                            <div>
+                                <strong>90%</strong>
+                                Resolved
+                            </div>
+                            <div>
+                                <strong>4.5★</strong>
+                                Rating
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Vadodara Nagar Samwad</h4>
+                <p>AI-Powered Municipal Complaint Registration System. Making civic services accessible to every citizen
+                    through intelligent voice technology.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="complaint.html">Register Complaint</a></li>
+                    <li><a href="call.html">Voice Call</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="reports.html">Reports</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li>📞 Helpline: 1800-233-5500</li>
+                    <li>📧 support@vmc.gov.in</li>
+                    <li>🏢 Municipal Corporation</li>
+                    <li>📍 Vadodara, Gujarat</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Vadodara Municipal Corporation. All Rights Reserved.</p>
+            <p>Developed under Smart City Mission | Powered by AI Technology</p>
+        </div>
+    </footer>
+
+    <script>
+        // Resolution Chart
+        const resolutionCtx = document.getElementById('resolutionChart').getContext('2d');
+        new Chart(resolutionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Street Light', 'Water Supply', 'Road Damage', 'Garbage'],
+                datasets: [{
+                    label: 'Resolved',
+                    data: [580, 760, 420, 429],
+                    backgroundColor: '#138808',
+                    borderRadius: 8
+                }, {
+                    label: 'Pending',
+                    data: [70, 130, 100, 58],
+                    backgroundColor: '#f7931e',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // Operator Performance Chart
+        const operatorCtx = document.getElementById('operatorChart').getContext('2d');
+        new Chart(operatorCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Call Volume', 'Resolution %', 'Rating', 'Speed', 'Satisfaction'],
+                datasets: [{
+                    label: 'Top Performer',
+                    data: [95, 96, 98, 92, 96],
+                    borderColor: '#1a4f8b',
+                    backgroundColor: 'rgba(26, 79, 139, 0.1)',
+                    fill: true
+                }, {
+                    label: 'Team Average',
+                    data: [85, 92, 90, 88, 92],
+                    borderColor: '#f7931e',
+                    backgroundColor: 'rgba(247, 147, 30, 0.1)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

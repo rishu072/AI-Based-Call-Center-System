@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Smart Call Center Dashboard - Analytics and Insights">
+    <title>Dashboard | Vadodara Nagar Samwad</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="index.html" class="nav-brand">
+            <span class="emblem">🏛️</span>
+            <div class="nav-brand-text">
+                <span class="title">Vadodara Nagar Samwad</span>
+                <span class="subtitle">वडोदरा नगर संवाद | વડોદરા નગર સંવાદ</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="complaint.html" class="nav-link">Register Complaint</a>
+            <a href="call.html" class="nav-link">Voice Call</a>
+            <a href="dashboard.html" class="nav-link active">Dashboard</a>
+            <a href="call.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                Start AI Call
+            </a>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>📊 Analytics Dashboard</h1>
+            <p>Real-time insights and complaint tracking powered by n8n automation</p>
+        </header>
+
+        <main class="dashboard-main">
+            <!-- Main Content Wrapper with Sidebar -->
+            <div style="display: grid; grid-template-columns: 1fr 350px; gap: var(--space-xl);">
+                <!-- Left Content Area -->
+                <div>
+                    <!-- Navigation -->
+                    <div class="dashboard-nav glass-card"
+                        style="display: flex; justify-content: center; gap: var(--space-md); margin-bottom: var(--space-xl); padding: var(--space-md);">
+                        <a href="index.html" class="btn btn-secondary" style="padding: 0.75rem 1.25rem;"> Home</a>
+                        <a href="call.html" class="btn btn-primary" style="padding: 0.75rem 1.25rem;"> New Complaint</a>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">📝</div>
+                            <div class="stat-value" id="totalComplaints">0</div>
+                            <div class="stat-label">Total Complaints</div>
+                            <div class="stat-trend up">
+                                <span>↑ 12%</span> vs last month
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-value" id="resolvedComplaints">0</div>
+                            <div class="stat-label">Resolved</div>
+                            <div class="stat-trend up">
+                                <span>↑ 8%</span> vs last month
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⏳</div>
+                            <div class="stat-value" id="pendingComplaints">0</div>
+                            <div class="stat-label">In Progress</div>
+                            <div class="stat-trend down">
+                                <span>↓ 5%</span> vs last month
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⚡</div>
+                            <div class="stat-value" id="avgResolution">0</div>
+                            <div class="stat-label">Avg. Resolution (Days)</div>
+                            <div class="stat-trend up">
+                                <span>↑ 15%</span> faster
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row -->
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: var(--space-xl); margin-bottom: var(--space-xl);">
+                        <!-- Bar Chart -->
+                        <div class="chart-container glass-card">
+                            <h3 class="chart-title">📊 Complaints by Category</h3>
+                            <div class="chart-wrapper">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Doughnut Chart -->
+                        <div class="chart-container glass-card">
+                            <h3 class="chart-title">📈 Status Distribution</h3>
+                            <div class="chart-wrapper">
+                                <canvas id="statusChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Line Chart - Full Width -->
+                    <div class="chart-container glass-card" style="margin-bottom: var(--space-xl);">
+                        <h3 class="chart-title">📉 Weekly Trend</h3>
+                        <div class="chart-wrapper" style="height: 350px;">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Recent Complaints Table -->
+                    <div class="glass-card" style="padding: var(--space-xl);">
+                        <h3 class="chart-title" style="margin-bottom: var(--space-lg);">🕐 Recent Complaints</h3>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Type</th>
+                                        <th>Area</th>
+                                        <th>Status</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentComplaints">
+                                    <tr>
+                                        <td><code>COMP-2026012115234</code></td>
+                                        <td><span class="category-badge street-light">💡 Street Light</span></td>
+                                        <td>Sector 5</td>
+                                        <td><span class="status-tag pending">Pending</span></td>
+                                        <td>2 min ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>COMP-2026012115198</code></td>
+                                        <td><span class="category-badge water-supply">💧 Water Supply</span></td>
+                                        <td>Gandhi Nagar</td>
+                                        <td><span class="status-tag processing">Processing</span></td>
+                                        <td>15 min ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>COMP-2026012115167</code></td>
+                                        <td><span class="category-badge road-damage">🛣️ Road Damage</span></td>
+                                        <td>Main Road</td>
+                                        <td><span class="status-tag resolved">Resolved</span></td>
+                                        <td>1 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>COMP-2026012115145</code></td>
+                                        <td><span class="category-badge garbage">🗑️ Garbage</span></td>
+                                        <td>Ward 3</td>
+                                        <td><span class="status-tag resolved">Resolved</span></td>
+                                        <td>2 hours ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>COMP-2026012115123</code></td>
+                                        <td><span class="category-badge water-supply">💧 Water Supply</span></td>
+                                        <td>Sector 12</td>
+                                        <td><span class="status-tag resolved">Resolved</span></td>
+                                        <td>3 hours ago</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar - ID Tracker -->
+                <div style="position: sticky; top: var(--space-lg); height: fit-content;">
+                    <!-- ID Tracker Card -->
+                    <div class="glass-card" style="margin-bottom: var(--space-lg);">
+                        <h3
+                            style="margin-bottom: var(--space-md); display: flex; align-items: center; gap: var(--space-xs);">
+                            <span style="font-size: 1.5rem;">🔍</span> Track Complaint
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: var(--space-md);">
+                            Enter your complaint ID to check status
+                        </p>
+
+                        <div style="margin-bottom: var(--space-md);">
+                            <input type="text" id="trackingId"
+                                placeholder="Enter Complaint ID (e.g., COMP-2026012115234)"
+                                style="width: 100%; padding: var(--space-sm); border: 2px solid var(--border-color); border-radius: var(--radius-md); font-size: 0.95rem;">
+                        </div>
+
+                        <button id="trackButton" class="btn btn-primary"
+                            style="width: 100%; margin-bottom: var(--space-md);">
+                            🔍 Track Now
+                        </button>
+
+                        <!-- Results Area -->
+                        <div id="trackingResults" style="display: none;">
+                            <div
+                                style="border-top: 2px solid var(--border-color); padding-top: var(--space-md); margin-top: var(--space-md);">
+                                <div style="margin-bottom: var(--space-sm);">
+                                    <strong style="color: var(--text-secondary);">Complaint ID:</strong>
+                                    <div id="resultId"
+                                        style="font-family: monospace; color: var(--primary); margin-top: 0.25rem;">
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: var(--space-sm);">
+                                    <strong style="color: var(--text-secondary);">Category:</strong>
+                                    <div id="resultCategory" style="margin-top: 0.25rem;"></div>
+                                </div>
+                                <div style="margin-bottom: var(--space-sm);">
+                                    <strong style="color: var(--text-secondary);">Area:</strong>
+                                    <div id="resultArea" style="margin-top: 0.25rem;"></div>
+                                </div>
+                                <div style="margin-bottom: var(--space-sm);">
+                                    <strong style="color: var(--text-secondary);">Status:</strong>
+                                    <div id="resultStatus" style="margin-top: 0.25rem;"></div>
+                                </div>
+                                <div style="margin-bottom: var(--space-sm);">
+                                    <strong style="color: var(--text-secondary);">Submitted:</strong>
+                                    <div id="resultTime" style="margin-top: 0.25rem;"></div>
+                                </div>
+                                <div>
+                                    <strong style="color: var(--text-secondary);">Description:</strong>
+                                    <div id="resultDescription"
+                                        style="margin-top: 0.25rem; color: var(--text-muted); font-size: 0.9rem;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Error Message -->
+                        <div id="trackingError"
+                            style="display: none; padding: var(--space-sm); background: var(--danger-light); border-radius: var(--radius-md); color: var(--danger); font-size: 0.9rem;">
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats Sidebar -->
+                    <div class="glass-card">
+                        <h4 style="margin-bottom: var(--space-md); font-size: 1rem;">📈 Quick Stats</h4>
+                        <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+                            <div
+                                style="display: flex; justify-content: space-between; padding: var(--space-xs); border-bottom: 1px solid var(--border-light);">
+                                <span style="color: var(--text-muted); font-size: 0.85rem;">Today</span>
+                                <strong style="color: var(--primary);">47</strong>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; padding: var(--space-xs); border-bottom: 1px solid var(--border-light);">
+                                <span style="color: var(--text-muted); font-size: 0.85rem;">This Week</span>
+                                <strong style="color: var(--primary);">312</strong>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; padding: var(--space-xs); border-bottom: 1px solid var(--border-light);">
+                                <span style="color: var(--text-muted); font-size: 0.85rem;">This Month</span>
+                                <strong style="color: var(--primary);">2547</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: var(--space-xs);">
+                                <span style="color: var(--text-muted); font-size: 0.85rem;">Resolution Rate</span>
+                                <strong style="color: var(--success);">86%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>© 2026 Vadodara Nagar Samwad | Municipal Corporation | Powered by n8n Automation</p>
+        </footer>
+    </div>
+
+    <script>
+        // Generate floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 25;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.width = (Math.random() * 4 + 2) + 'px';
+                particle.style.height = particle.style.width;
+                container.appendChild(particle);
+            }
+        }
+
+        // Animate stat numbers
+        function animateStats() {
+            const stats = [
+                { id: 'totalComplaints', end: 2547 },
+                { id: 'resolvedComplaints', end: 2189 },
+                { id: 'pendingComplaints', end: 358 },
+                { id: 'avgResolution', end: 2.3, decimal: true }
+            ];
+
+            stats.forEach(stat => {
+                const element = document.getElementById(stat.id);
+                let current = 0;
+                const increment = stat.end / 60;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= stat.end) {
+                        current = stat.end;
+                        clearInterval(timer);
+                    }
+                    element.textContent = stat.decimal
+                        ? current.toFixed(1)
+                        : Math.floor(current).toLocaleString();
+                }, 20);
+            });
+        }
+
+        // Initialize Charts
+        function initCharts() {
+            // Government theme colors
+            const govBlue = '#1a4f8b';
+            const govGreen = '#138808';
+            const govSaffron = '#f7931e';
+            const textColor = '#4a5568';
+            const gridColor = 'rgba(0, 0, 0, 0.05)';
+
+            // Category Bar Chart
+            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+            const categoryGradient1 = categoryCtx.createLinearGradient(0, 0, 0, 300);
+            categoryGradient1.addColorStop(0, 'rgba(26, 79, 139, 0.9)');
+            categoryGradient1.addColorStop(1, 'rgba(26, 79, 139, 0.5)');
+
+            const categoryGradient2 = categoryCtx.createLinearGradient(0, 0, 0, 300);
+            categoryGradient2.addColorStop(0, 'rgba(19, 136, 8, 0.9)');
+            categoryGradient2.addColorStop(1, 'rgba(19, 136, 8, 0.5)');
+
+            new Chart(categoryCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Street Light', 'Water Supply', 'Road Damage', 'Garbage'],
+                    datasets: [{
+                        label: 'Total',
+                        data: [650, 890, 520, 487],
+                        backgroundColor: categoryGradient1,
+                        borderColor: govBlue,
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }, {
+                        label: 'Resolved',
+                        data: [580, 760, 420, 429],
+                        backgroundColor: categoryGradient2,
+                        borderColor: govGreen,
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: textColor, padding: 20 }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        },
+                        y: {
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        }
+                    }
+                }
+            });
+
+            // Status Doughnut Chart
+            const statusCtx = document.getElementById('statusChart').getContext('2d');
+            new Chart(statusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Resolved', 'In Progress', 'Pending'],
+                    datasets: [{
+                        data: [2189, 245, 113],
+                        backgroundColor: [
+                            govGreen,
+                            govBlue,
+                            govSaffron
+                        ],
+                        borderColor: '#ffffff',
+                        borderWidth: 3,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: textColor, padding: 15 }
+                        }
+                    }
+                }
+            });
+
+            // Trend Line Chart
+            const trendCtx = document.getElementById('trendChart').getContext('2d');
+            const trendGradient = trendCtx.createLinearGradient(0, 0, 0, 350);
+            trendGradient.addColorStop(0, 'rgba(26, 79, 139, 0.2)');
+            trendGradient.addColorStop(1, 'rgba(26, 79, 139, 0)');
+
+            new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'New Complaints',
+                        data: [65, 59, 80, 81, 56, 55, 40],
+                        fill: true,
+                        backgroundColor: trendGradient,
+                        borderColor: govBlue,
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointBackgroundColor: govBlue,
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 8
+                    }, {
+                        label: 'Resolved',
+                        data: [45, 52, 60, 74, 48, 50, 35],
+                        fill: false,
+                        borderColor: govGreen,
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointBackgroundColor: govGreen,
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: textColor, padding: 20 }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        },
+                        y: {
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+            initCharts();
+            animateStats();
+
+            // ID Tracker Functionality
+            const trackButton = document.getElementById('trackButton');
+            const trackingId = document.getElementById('trackingId');
+            const trackingResults = document.getElementById('trackingResults');
+            const trackingError = document.getElementById('trackingError');
+
+            // Sample complaint database (in real app, this would come from backend)
+            const complaintDatabase = {
+                'COMP-2026012115234': {
+                    id: 'COMP-2026012115234',
+                    category: '💡 Street Light',
+                    area: 'Sector 5',
+                    status: 'pending',
+                    time: '2 min ago',
+                    description: 'Street light not working on Main Road near Park'
+                },
+                'COMP-2026012115198': {
+                    id: 'COMP-2026012115198',
+                    category: '💧 Water Supply',
+                    area: 'Gandhi Nagar',
+                    status: 'processing',
+                    time: '15 min ago',
+                    description: 'Low water pressure in the morning hours'
+                },
+                'COMP-2026012115167': {
+                    id: 'COMP-2026012115167',
+                    category: '🛣️ Road Damage',
+                    area: 'Main Road',
+                    status: 'resolved',
+                    time: '1 hour ago',
+                    description: 'Pothole causing traffic issues, fixed successfully'
+                },
+                'COMP-2026012115145': {
+                    id: 'COMP-2026012115145',
+                    category: '🗑️ Garbage',
+                    area: 'Ward 3',
+                    status: 'resolved',
+                    time: '2 hours ago',
+                    description: 'Garbage collection delayed, now resolved'
+                },
+                'COMP-2026012115123': {
+                    id: 'COMP-2026012115123',
+                    category: '💧 Water Supply',
+                    area: 'Sector 12',
+                    status: 'resolved',
+                    time: '3 hours ago',
+                    description: 'Water supply interruption, restored'
+                }
+            };
+
+            trackButton.addEventListener('click', function () {
+                const inputId = trackingId.value.trim().toUpperCase();
+
+                // Hide previous results
+                trackingResults.style.display = 'none';
+                trackingError.style.display = 'none';
+
+                if (!inputId) {
+                    trackingError.textContent = '⚠️ Please enter a complaint ID';
+                    trackingError.style.display = 'block';
+                    return;
+                }
+
+                // Check if ID exists in database
+                const complaint = complaintDatabase[inputId];
+
+                if (complaint) {
+                    // Display results
+                    document.getElementById('resultId').textContent = complaint.id;
+                    document.getElementById('resultCategory').innerHTML = `<span class="category-badge">${complaint.category}</span>`;
+                    document.getElementById('resultArea').textContent = complaint.area;
+
+                    // Set status with appropriate styling
+                    let statusHTML = '';
+                    if (complaint.status === 'pending') {
+                        statusHTML = '<span class="status-tag pending">Pending</span>';
+                    } else if (complaint.status === 'processing') {
+                        statusHTML = '<span class="status-tag processing">Processing</span>';
+                    } else if (complaint.status === 'resolved') {
+                        statusHTML = '<span class="status-tag resolved">Resolved</span>';
+                    }
+                    document.getElementById('resultStatus').innerHTML = statusHTML;
+
+                    document.getElementById('resultTime').textContent = complaint.time;
+                    document.getElementById('resultDescription').textContent = complaint.description;
+
+                    trackingResults.style.display = 'block';
+                } else {
+                    trackingError.textContent = '❌ Complaint ID not found. Please check and try again.';
+                    trackingError.style.display = 'block';
+                }
+            });
+
+            // Allow Enter key to track
+            trackingId.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    trackButton.click();
+                }
+            });
+        });
+    </script>
+
+    <style>
+        /* Dashboard specific styles */
+        .stat-trend {
+            margin-top: var(--space-sm);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .stat-trend span {
+            font-weight: 600;
+        }
+
+        .stat-trend.up span {
+            color: #38ef7d;
+        }
+
+        .stat-trend.down span {
+            color: #f5576c;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .status-badge.online {
+            border-color: rgba(56, 239, 125, 0.3);
+            color: #38ef7d;
+        }
+
+        .status-indicator-dot {
+            width: 8px;
+            height: 8px;
+            background: #38ef7d;
+            border-radius: 50%;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        /* Data Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: var(--space-md);
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .data-table th {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            color: var(--text-primary);
+        }
+
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .data-table code {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.85rem;
+            color: var(--text-accent);
+        }
+
+        /* Status Tags */
+        .status-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-tag.pending {
+            background: rgba(240, 147, 251, 0.2);
+            color: #f093fb;
+        }
+
+        .status-tag.processing {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+        }
+
+        .status-tag.resolved {
+            background: rgba(56, 239, 125, 0.2);
+            color: #38ef7d;
+        }
+
+        /* n8n Features */
+        .n8n-feature {
+            text-align: center;
+            padding: var(--space-lg);
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            transition: var(--transition-base);
+        }
+
+        .n8n-feature:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-5px);
+        }
+
+        .n8n-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .n8n-feature h4 {
+            margin-bottom: var(--space-xs);
+            color: var(--text-primary);
+        }
+
+        .n8n-feature p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .data-table {
+                font-size: 0.85rem;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: var(--space-sm);
+            }
+
+            /* Make layout single column on mobile */
+            .dashboard-main>div {
+                grid-template-columns: 1fr !important;
+            }
+
+            .dashboard-main>div>div:last-child {
+                position: static !important;
+            }
+        }
+    </style>
+</body>
+
+</html>
