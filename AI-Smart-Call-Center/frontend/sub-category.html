@@ -494,7 +494,7 @@
                         });
                         const data = await response.json();
                         if (data.audio_url) {
-                            const audio = new Audio(`${CONFIG.API.BASE_URL}${data.audio_url}`);
+                            const audio = new Audio(`http://localhost:5000${data.audio_url}`);
                             audio.play();
                         }
                     } catch (error) {

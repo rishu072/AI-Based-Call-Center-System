@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .success {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .error {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .pending {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h3 {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button.primary {
+            background: #007bff;
+            color: white;
+        }
+
+        button.secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        button.success {
+            background: #28a745;
+            color: white;
+        }
+
+        #speechResult {
+            padding: 15px;
+            background: #f5f5f5;
+            min-height: 50px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .status {
+            font-weight: bold;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔧 System Test Page</h1>
+    <p>This page tests all components of the AI Smart Call Center</p>
+
+    <!-- Backend Test -->
+    <div class="test-section pending" id="backendTest">
+        <h3>1️⃣ Backend API Test</h3>
+        <p>Testing: <code>http://localhost:5000/api/health</code></p>
+        <button class="primary" onclick="testBackend()">Test Backend</button>
+        <div id="backendResult"></div>
+    </div>
+
+    <!-- Complaints API Test -->
+    <div class="test-section pending" id="complaintsTest">
+        <h3>2️⃣ Complaints API Test</h3>
+        <p>Testing: <code>http://localhost:5000/api/complaints</code></p>
+        <button class="primary" onclick="testComplaints()">Get Complaints</button>
+        <button class="success" onclick="testCreateComplaint()">Create Test Complaint</button>
+        <div id="complaintsResult"></div>
+    </div>
+
+    <!-- Speech Recognition Test -->
+    <div class="test-section pending" id="speechTest">
+        <h3>3️⃣ Speech Recognition Test</h3>
+        <p>Browser Speech API support check</p>
+        <button class="primary" onclick="testSpeech()">Start Listening</button>
+        <button class="secondary" onclick="stopSpeech()">Stop</button>
+        <div id="speechResult">Click "Start Listening" and speak...</div>
+        <div id="speechStatus"></div>
+    </div>
+
+    <!-- State Management Test -->
+    <div class="test-section pending" id="stateTest">
+        <h3>4️⃣ State Management Test</h3>
+        <p>Testing localStorage and state management</p>
+        <button class="primary" onclick="testState()">Test State</button>
+        <button class="secondary" onclick="saveTestState()">Save Test Complaint</button>
+        <div id="stateResult"></div>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="test-section" style="background: #e8f4fd;">
+        <h3>📍 Quick Navigation</h3>
+        <a href="index.html"><button class="primary">Home</button></a>
+        <a href="complaint.html"><button class="primary">Complaint Types</button></a>
+        <a href="call.html"><button class="primary">Voice Call</button></a>
+        <a href="address.html"><button class="primary">Address Form</button></a>
+        <a href="review.html"><button class="primary">Review Page</button></a>
+        <a href="dashboard.html"><button class="primary">Dashboard</button></a>
+    </div>
+
+    <script>
+        // ========== BACKEND TEST ==========
+        async function testBackend() {
+            const section = document.getElementById('backendTest');
+            const result = document.getElementById('backendResult');
+            result.innerHTML = '⏳ Testing...';
+
+            try {
+                const response = await fetch('http://localhost:5000/api/health');
+                const data = await response.json();
+                result.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                section.className = 'test-section success';
+            } catch (error) {
+                result.innerHTML = `❌ Error: ${error.message}<br><br>Make sure backend is running:<br><code>cd backend && python -m uvicorn main:app --port 5000</code>`;
+                section.className = 'test-section error';
+            }
+        }
+
+        // ========== COMPLAINTS TEST ==========
+        async function testComplaints() {
+            const section = document.getElementById('complaintsTest');
+            const result = document.getElementById('complaintsResult');
+            result.innerHTML = '⏳ Fetching complaints...';
+
+            try {
+                const response = await fetch('http://localhost:5000/api/complaints');
+                const data = await response.json();
+                result.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                section.className = 'test-section success';
+            } catch (error) {
+                result.innerHTML = `❌ Error: ${error.message}`;
+                section.className = 'test-section error';
+            }
+        }
+
+        async function testCreateComplaint() {
+            const section = document.getElementById('complaintsTest');
+            const result = document.getElementById('complaintsResult');
+            result.innerHTML = '⏳ Creating test complaint...';
+
+            try {
+                const response = await fetch('http://localhost:5000/api/complaints', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        complaint_type: 'Street Light',
+                        house_no: '123',
+                        area: 'Test Area',
+                        ward: 'Ward 1',
+                        zone: 'Central',
+                        description: 'Test complaint from test page',
+                        phone_number: '9876543210'
+                    })
+                });
+                const data = await response.json();
+                result.innerHTML = `✅ Created!<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                section.className = 'test-section success';
+            } catch (error) {
+                result.innerHTML = `❌ Error: ${error.message}`;
+                section.className = 'test-section error';
+            }
+        }
+
+        // ========== SPEECH RECOGNITION TEST ==========
+        let recognition = null;
+
+        function testSpeech() {
+            const section = document.getElementById('speechTest');
+            const result = document.getElementById('speechResult');
+            const status = document.getElementById('speechStatus');
+
+            // Check browser support
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+            if (!SpeechRecognition) {
+                result.innerHTML = '❌ Speech Recognition is NOT supported in this browser. Use Chrome or Edge!';
+                status.innerHTML = '<span class="status" style="background: #dc3545; color: white;">NOT SUPPORTED</span>';
+                section.className = 'test-section error';
+                return;
+            }
+
+            status.innerHTML = '<span class="status" style="background: #28a745; color: white;">SUPPORTED ✓</span>';
+
+            try {
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'en-US';
+
+                recognition.onstart = () => {
+                    result.innerHTML = '🎤 <strong>LISTENING...</strong> Speak now!';
+                    section.className = 'test-section success';
+                };
+
+                recognition.onresult = (event) => {
+                    let transcript = '';
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        transcript += event.results[i][0].transcript;
+                    }
+                    result.innerHTML = '🎤 <strong>Heard:</strong> ' + transcript;
+                };
+
+                recognition.onerror = (event) => {
+                    result.innerHTML = '❌ Error: ' + event.error + '<br><br>If "not-allowed", click the microphone icon in the address bar and allow access.';
+                    section.className = 'test-section error';
+                };
+
+                recognition.onend = () => {
+                    result.innerHTML += '<br><br>⏹️ Stopped';
+                };
+
+                recognition.start();
+
+            } catch (error) {
+                result.innerHTML = '❌ Error: ' + error.message;
+                section.className = 'test-section error';
+            }
+        }
+
+        function stopSpeech() {
+            if (recognition) {
+                recognition.stop();
+                recognition = null;
+            }
+        }
+
+        // ========== STATE TEST ==========
+        function testState() {
+            const section = document.getElementById('stateTest');
+            const result = document.getElementById('stateResult');
+
+            try {
+                // Test localStorage
+                localStorage.setItem('testKey', 'testValue');
+                const testVal = localStorage.getItem('testKey');
+                localStorage.removeItem('testKey');
+
+                // Get current state
+                const state = localStorage.getItem('complaintAppState');
+
+                let output = '✅ localStorage is working!<br><br>';
+                output += '<strong>Current App State:</strong><br>';
+                output += `<pre>${state ? JSON.stringify(JSON.parse(state), null, 2) : 'No state saved'}</pre>`;
+
+                result.innerHTML = output;
+                section.className = 'test-section success';
+            } catch (error) {
+                result.innerHTML = '❌ Error: ' + error.message;
+                section.className = 'test-section error';
+            }
+        }
+
+        function saveTestState() {
+            const result = document.getElementById('stateResult');
+
+            const testState = {
+                currentStep: 'review',
+                language: 'en-US',
+                complaint: {
+                    type: 'Street Light',
+                    subType: 'light_off'
+                },
+                address: {
+                    houseNo: '123',
+                    area: 'Test Area',
+                    ward: 'Ward 1',
+                    zone: 'Central'
+                },
+                userDetails: {
+                    phoneNumber: '9876543210',
+                    description: 'Test complaint - light not working'
+                }
+            };
+
+            localStorage.setItem('complaintAppState', JSON.stringify(testState));
+            result.innerHTML = '✅ Test state saved! Now go to <a href="review.html">Review Page</a> to test submission.';
+        }
+
+        // Run backend test on page load
+        testBackend();
+    </script>
+</body>
+
+</html>

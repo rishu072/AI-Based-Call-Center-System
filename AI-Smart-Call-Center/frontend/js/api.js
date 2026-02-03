@@ -219,7 +219,7 @@ async function checkAPIHealth() {
     try {
         logger.info('Checking API health');
 
-        const result = await apiRequest('/health', 'GET');
+        const result = await apiRequest(CONFIG.API.ENDPOINTS.HEALTH, 'GET');
 
         if (result.success) {
             logger.info('API is healthy');

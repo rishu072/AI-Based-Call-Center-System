@@ -10,16 +10,299 @@
     <link rel="stylesheet" href="css/landing.css">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎤</text></svg>">
+    <style>
+        .call-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .call-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .call-header h1 {
+            color: #1a4f8b;
+        }
+
+        .call-interface {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .microphone-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .mic-button {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a4f8b, #138808);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .mic-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(26, 79, 139, 0.4);
+        }
+
+        .mic-button.listening {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            animation: pulse 1.5s infinite;
+        }
+
+        .mic-icon {
+            font-size: 40px;
+        }
+
+        .mic-text {
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 0 20px rgba(220, 53, 69, 0);
+            }
+        }
+
+        .voice-animation {
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 4px;
+            height: 50px;
+            margin: 20px 0;
+        }
+
+        .wave {
+            width: 6px;
+            background: #1a4f8b;
+            border-radius: 3px;
+            animation: wave 0.5s ease-in-out infinite;
+        }
+
+        .wave:nth-child(1) {
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .wave:nth-child(2) {
+            height: 35px;
+            animation-delay: 0.1s;
+        }
+
+        .wave:nth-child(3) {
+            height: 50px;
+            animation-delay: 0.2s;
+        }
+
+        .wave:nth-child(4) {
+            height: 35px;
+            animation-delay: 0.3s;
+        }
+
+        .wave:nth-child(5) {
+            height: 20px;
+            animation-delay: 0.4s;
+        }
+
+        @keyframes wave {
+
+            0%,
+            100% {
+                transform: scaleY(0.5);
+            }
+
+            50% {
+                transform: scaleY(1);
+            }
+        }
+
+        .response-section,
+        .user-input-section {
+            margin: 20px 0;
+        }
+
+        .response-section label,
+        .user-input-section label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .ai-response-box,
+        .user-input-box {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .ai-response-box {
+            background: #e8f4fd;
+        }
+
+        .user-input-box {
+            background: #fff;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1a4f8b, #138808);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(26, 79, 139, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .status-indicator {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .status-text {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .language-selector {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .language-dropdown {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 2px solid #1a4f8b;
+            font-size: 16px;
+        }
+
+        .quick-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .quick-type-btn {
+            padding: 8px 16px;
+            background: #e8f4fd;
+            border: 1px solid #1a4f8b;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .quick-type-btn:hover {
+            background: #1a4f8b;
+            color: white;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.success {
+            background: #28a745;
+        }
+
+        .toast.error {
+            background: #dc3545;
+        }
+
+        .toast.info {
+            background: #17a2b8;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 
-<body>
+<body style="background: #f5f7fa; min-height: 100vh;">
     <!-- Top Navigation -->
     <nav class="top-nav">
         <a href="index.html" class="nav-brand">
             <span class="emblem">🏛️</span>
             <div class="nav-brand-text">
                 <span class="title">Vadodara Nagar Samwad</span>
-                <span class="subtitle">वडोदरा नगर संवाद | વડોદરા નગર સંવાદ</span>
             </div>
         </a>
         <div class="nav-links">
@@ -27,93 +310,87 @@
             <a href="complaint.html" class="nav-link">Register Complaint</a>
             <a href="call.html" class="nav-link active">Voice Call</a>
             <a href="dashboard.html" class="nav-link">Dashboard</a>
-            <a href="call.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
-                Start AI Call
-            </a>
         </div>
     </nav>
 
     <div class="call-container">
         <header class="call-header">
             <h1>🎤 AI Voice Call Center</h1>
-            <p>Speak naturally to register your complaint or request service</p>
+            <p>Speak naturally to register your complaint</p>
         </header>
 
-        <main class="call-main">
-            <div class="call-controls">
-                <div class="language-selector glass-card">
-                    <label for="language">🌐 Select Language:</label>
-                    <select id="language" class="language-dropdown form-select">
-                        <option value="en-US">English</option>
-                        <option value="hi-IN">हिंदी (Hindi)</option>
-                        <option value="gu-IN">ગુજરાતી (Gujarati)</option>
-                    </select>
-                </div>
+        <div class="call-interface">
+            <!-- Language Selector -->
+            <div class="language-selector">
+                <label for="language">🌐 Select Language: </label>
+                <select id="language" class="language-dropdown">
+                    <option value="en-US">English</option>
+                    <option value="hi-IN">हिंदी (Hindi)</option>
+                    <option value="gu-IN">ગુજરાતી (Gujarati)</option>
+                </select>
             </div>
 
-            <div class="call-interface glass-card">
-                <div class="microphone-section">
-                    <button id="micButton" class="mic-button">
-                        <span class="mic-icon">🎤</span>
-                        <span class="mic-text">Start Listening</span>
-                    </button>
+            <!-- Microphone Section -->
+            <div class="microphone-section">
+                <button id="micButton" class="mic-button">
+                    <span class="mic-icon">🎤</span>
+                    <span class="mic-text">Start</span>
+                </button>
 
-                    <div class="voice-animation" id="voiceAnimation" style="display: none;">
-                        <div class="wave"></div>
-                        <div class="wave"></div>
-                        <div class="wave"></div>
-                        <div class="wave"></div>
-                        <div class="wave"></div>
-                    </div>
-
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: var(--space-md);">
-                        Click the microphone button and speak your complaint
-                    </p>
+                <div class="voice-animation" id="voiceAnimation">
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
                 </div>
 
-                <div class="response-section">
-                    <label for="aiResponse">🤖 AI Assistant:</label>
-                    <textarea id="aiResponse" class="ai-response-box" readonly
-                        placeholder="Welcome to AI Smart Call Center! Click the microphone button and describe your complaint. I'll guide you through the process..."></textarea>
-                </div>
-
-                <div class="user-input-section">
-                    <label for="userInput">📝 Your Input:</label>
-                    <textarea id="userInput" class="user-input-box"
-                        placeholder="Your speech will be converted to text here. You can also type manually..."></textarea>
-                </div>
-
-                <div class="action-buttons">
-                    <button id="submitButton" class="btn btn-primary">
-                        ✓ Submit
-                    </button>
-                    <button id="clearButton" class="btn btn-secondary">
-                        ↺ Clear
-                    </button>
-                    <a href="index.html" class="btn btn-secondary">
-                        ← Go Back
-                    </a>
-                </div>
+                <p style="color: #666; font-size: 14px; margin-top: 15px;">
+                    Click the microphone and speak your complaint
+                </p>
             </div>
 
-            <div class="status-indicator glass-card">
+            <!-- AI Response -->
+            <div class="response-section">
+                <label for="aiResponse">🤖 AI Assistant:</label>
+                <textarea id="aiResponse" class="ai-response-box" readonly>Welcome to AI Smart Call Center!
+
+Click the microphone button and describe your complaint. I'll help you register it quickly.</textarea>
+            </div>
+
+            <!-- User Input -->
+            <div class="user-input-section">
+                <label for="userInput">📝 Your Input:</label>
+                <textarea id="userInput" class="user-input-box"
+                    placeholder="Your speech will appear here. You can also type manually..."></textarea>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button id="submitButton" class="btn btn-primary">✓ Submit Complaint</button>
+                <button id="clearButton" class="btn btn-secondary">↺ Clear</button>
+                <a href="complaint.html" class="btn btn-secondary">📋 Select Type Manually</a>
+            </div>
+
+            <!-- Status -->
+            <div class="status-indicator">
                 <p id="statusText" class="status-text">Ready to listen...</p>
             </div>
 
-            <!-- Quick Actions -->
-            <div style="text-align: center; margin-top: var(--space-xl);">
-                <p style="color: var(--text-muted); margin-bottom: var(--space-md);">Or choose a complaint type
-                    directly:</p>
-                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm);">
-                    <a href="complaint.html" class="btn btn-secondary"
-                        style="padding: 0.75rem 1.25rem; font-size: 0.9rem;">
-                        📋 Select Complaint Type
-                    </a>
+            <!-- Quick Type Selection -->
+            <div style="text-align: center; margin-top: 30px;">
+                <p style="color: #666; margin-bottom: 10px;">Quick select complaint type:</p>
+                <div class="quick-types">
+                    <button class="quick-type-btn" onclick="selectQuickType('Street Light')">💡 Street Light</button>
+                    <button class="quick-type-btn" onclick="selectQuickType('Water Supply')">💧 Water Supply</button>
+                    <button class="quick-type-btn" onclick="selectQuickType('Road Damage')">🛣️ Road Damage</button>
+                    <button class="quick-type-btn" onclick="selectQuickType('Garbage')">🗑️ Garbage</button>
+                    <button class="quick-type-btn" onclick="selectQuickType('Drainage')">🚿 Drainage</button>
                 </div>
             </div>
-        </main>
+        </div>
 
-        <footer class="call-footer">
+        <footer style="text-align: center; padding: 20px; color: #666;">
             <p>Vadodara Nagar Samwad © 2026 | Municipal Corporation</p>
         </footer>
     </div>
@@ -121,34 +398,12 @@
     <script src="js/config.js"></script>
     <script src="js/state.js"></script>
     <script src="js/speech.js"></script>
-    <script src="js/flow.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/ui.js"></script>
     <script>
-        // ===== IMPORTANT: Set up callbacks FIRST before any other code =====
-        // This must be at the top to ensure callbacks are ready when speech.js needs them
+        // ========== MAIN FUNCTIONALITY ==========
+        let currentlyListening = false;
 
-        // Define the transcript update callback globally
-        window.onFlowTranscriptUpdate = function (finalTranscript, interimTranscript) {
-            const userInput = document.getElementById('userInput');
-            if (userInput) {
-                userInput.value = finalTranscript + interimTranscript;
-            }
-            console.log('[VOICE] Transcript update:', finalTranscript, interimTranscript);
-        };
-
-        // Also set window.onTranscriptUpdate as backup
-        window.onTranscriptUpdate = function (finalTranscript, interimTranscript) {
-            const userInput = document.getElementById('userInput');
-            if (userInput) {
-                userInput.value = finalTranscript + interimTranscript;
-            }
-            console.log('[VOICE] Transcript (backup):', finalTranscript, interimTranscript);
-        };
-
-        // ===== Main page functionality =====
         document.addEventListener('DOMContentLoaded', async function () {
-            console.log('[VOICE] Page loaded, initializing...');
+            console.log('[CALL] Page loaded');
 
             const micButton = document.getElementById('micButton');
             const voiceAnimation = document.getElementById('voiceAnimation');
@@ -159,240 +414,183 @@
             const submitButton = document.getElementById('submitButton');
             const clearButton = document.getElementById('clearButton');
 
-            let isListening = false;
-            let micPermissionGranted = false;
-
-            // Check browser support first
+            // Check browser support
             const support = checkSpeechSupport();
-            console.log('[VOICE] Browser support:', support);
+            console.log('[CALL] Speech support:', support);
 
             if (!support.speechRecognition) {
-                statusText.textContent = '⚠️ Speech recognition not supported. Please use Chrome or Edge browser.';
-                micButton.disabled = true;
+                statusText.textContent = '⚠️ Speech not supported. Use Chrome or Edge browser.';
                 micButton.style.opacity = '0.5';
-                showToast('Speech recognition requires Chrome or Edge browser', 'error');
-                return;
-            }
+                showToast('Please use Chrome or Edge for voice features', 'error');
+            } else {
+                statusText.textContent = '✅ Ready. Click microphone to start speaking.';
 
-            // Request microphone permission on page load
-            statusText.textContent = '🔐 Requesting microphone permission...';
-            try {
-                micPermissionGranted = await requestMicrophonePermission();
-                if (micPermissionGranted) {
-                    statusText.textContent = '✅ Microphone ready. Click the button to start speaking.';
-                    console.log('[VOICE] Microphone permission granted');
-                } else {
-                    statusText.textContent = '❌ Microphone permission denied. Please allow microphone access.';
-                    showToast('Please allow microphone access to use voice features', 'error');
-                }
-            } catch (error) {
-                console.error('[VOICE] Microphone permission error:', error);
-                statusText.textContent = '⚠️ Could not access microphone. Click button to try again.';
-            }
-
-            // Update language when changed
-            languageSelect.addEventListener('change', function () {
-                const selectedLang = this.value;
-                if (typeof setLanguage === 'function') setLanguage(selectedLang);
-                if (typeof setRecognitionLanguage === 'function') setRecognitionLanguage(selectedLang);
-
-                const langNames = {
-                    'en-US': 'English',
-                    'hi-IN': 'Hindi (हिंदी)',
-                    'gu-IN': 'Gujarati (ગુજરાતી)'
-                };
-                statusText.textContent = `🌐 Language: ${langNames[selectedLang]}. Ready to listen...`;
-                showToast(`Language changed to ${langNames[selectedLang]}`, 'success');
-            });
-
-            // Microphone button click handler
-            micButton.addEventListener('click', async function () {
-                console.log('[VOICE] Mic button clicked. isListening:', isListening);
-
-                if (isListening) {
-                    // Stop listening
-                    if (typeof stopListening === 'function') {
-                        stopListening();
-                    }
-                    micButton.classList.remove('listening');
-                    micButton.querySelector('.mic-text').textContent = 'Start Listening';
-                    voiceAnimation.style.display = 'none';
-                    statusText.textContent = '⏹️ Stopped listening. Click to start again.';
-                    isListening = false;
-                    console.log('[VOICE] Stopped listening');
-                } else {
-                    // Request permission if not granted
-                    if (!micPermissionGranted) {
-                        statusText.textContent = '🔐 Requesting microphone permission...';
-                        try {
-                            micPermissionGranted = await requestMicrophonePermission();
-                        } catch (error) {
-                            console.error('[VOICE] Permission error:', error);
-                        }
-                    }
-
-                    // Start listening
-                    console.log('[VOICE] Attempting to start listening...');
-                    statusText.textContent = '🎤 Starting...';
-
-                    if (typeof startListening === 'function') {
-                        const started = startListening(languageSelect.value);
-                        console.log('[VOICE] startListening result:', started);
-
-                        if (started) {
-                            micButton.classList.add('listening');
-                            micButton.querySelector('.mic-text').textContent = 'Stop';
-                            voiceAnimation.style.display = 'flex';
-                            statusText.textContent = '🎤 Listening... Speak now!';
-                            isListening = true;
-                            showToast('Started listening. Speak your complaint.', 'success');
-                        } else {
-                            statusText.textContent = '❌ Could not start. Check microphone permission.';
-                            showToast('Could not start speech recognition. Make sure microphone is allowed.', 'error');
-                        }
+                // Request permission
+                try {
+                    const permission = await requestMicrophonePermission();
+                    if (permission) {
+                        statusText.textContent = '✅ Microphone ready. Click to start.';
                     } else {
-                        console.error('[VOICE] startListening function not found!');
-                        statusText.textContent = '❌ Speech system not loaded. Refresh the page.';
-                        showToast('Speech system error. Please refresh the page.', 'error');
+                        statusText.textContent = '⚠️ Allow microphone access in browser settings.';
+                    }
+                } catch (e) {
+                    console.log('[CALL] Permission request error:', e);
+                }
+            }
+
+            // Microphone button click
+            micButton.addEventListener('click', function () {
+                console.log('[CALL] Mic button clicked, currently listening:', currentlyListening);
+
+                if (currentlyListening) {
+                    // Stop listening
+                    stopListening();
+                    micButton.classList.remove('listening');
+                    micButton.querySelector('.mic-text').textContent = 'Start';
+                    voiceAnimation.style.display = 'none';
+                    statusText.textContent = '⏹️ Stopped. Click to start again.';
+                    currentlyListening = false;
+                } else {
+                    // Start listening
+                    const started = startListening(languageSelect.value);
+                    console.log('[CALL] Start result:', started);
+
+                    if (started) {
+                        micButton.classList.add('listening');
+                        micButton.querySelector('.mic-text').textContent = 'Stop';
+                        voiceAnimation.style.display = 'flex';
+                        statusText.textContent = '🎤 Listening... Speak now!';
+                        currentlyListening = true;
+                        showToast('Listening started. Speak your complaint.', 'success');
+                    } else {
+                        statusText.textContent = '❌ Could not start. Allow microphone in browser.';
+                        showToast('Allow microphone access to use voice.', 'error');
                     }
                 }
             });
 
-            // Submit button handler
+            // Language change
+            languageSelect.addEventListener('change', function () {
+                if (typeof setRecognitionLanguage === 'function') {
+                    setRecognitionLanguage(this.value);
+                }
+                showToast('Language: ' + this.options[this.selectedIndex].text, 'info');
+            });
+
+            // Submit button
             submitButton.addEventListener('click', function () {
                 const text = userInput.value.trim();
 
                 if (!text) {
-                    showToast('Please provide some input before submitting.', 'error');
+                    showToast('Please enter or speak your complaint first.', 'error');
                     return;
                 }
 
-                // Stop listening if active
-                if (isListening && typeof stopListening === 'function') {
+                // Stop listening
+                if (currentlyListening) {
                     stopListening();
-                    isListening = false;
+                    currentlyListening = false;
                     micButton.classList.remove('listening');
                     voiceAnimation.style.display = 'none';
                 }
 
-                // Detect complaint type from text
-                const detectedType = detectComplaintTypeFromText(text);
+                // Detect complaint type
+                const detectedType = detectComplaintType(text);
 
                 if (detectedType) {
-                    // Save to state and navigate
-                    if (typeof setState === 'function') {
-                        setState({
-                            complaint: { type: detectedType },
-                            userDetails: { description: text },
-                            currentStep: 'address'
-                        });
-                    }
-
-                    aiResponse.value = `✓ Detected complaint type: ${detectedType}\n\n🔄 Processing...\n\nNavigating to address form...`;
-
-                    // Trigger n8n webhook (if configured)
-                    triggerN8nWebhook({
-                        action: 'complaint_detected',
-                        type: detectedType,
-                        description: text,
-                        timestamp: new Date().toISOString()
+                    // Save to state
+                    saveState({
+                        complaint: { type: detectedType },
+                        userDetails: { description: text },
+                        currentStep: 'address'
                     });
 
-                    showToast(`Complaint type detected: ${detectedType}`, 'success');
+                    aiResponse.value = '✓ Detected: ' + detectedType + '\n\nNavigating to address form...';
+                    showToast('Type detected: ' + detectedType, 'success');
 
                     setTimeout(() => {
                         window.location.href = 'address.html';
                     }, 1500);
                 } else {
-                    aiResponse.value = "I couldn't determine the complaint type. Please select from the options below.";
-
-                    if (typeof setState === 'function') {
-                        setState({
-                            userDetails: { description: text }
-                        });
-                    }
-
+                    aiResponse.value = "I couldn't determine the complaint type automatically.\n\nPlease select a type from the quick buttons below, or go to the complaint selection page.";
                     showToast('Please select complaint type manually', 'info');
-
-                    setTimeout(() => {
-                        window.location.href = 'complaint.html';
-                    }, 2000);
                 }
             });
 
-            // Clear button handler
+            // Clear button
             clearButton.addEventListener('click', function () {
                 userInput.value = '';
-                aiResponse.value = '';
+                aiResponse.value = 'Cleared. Click microphone to start again.';
                 if (typeof clearTranscript === 'function') {
                     clearTranscript();
                 }
-                statusText.textContent = '🔄 Cleared. Ready to listen...';
-                showToast('Cleared', 'info');
+                showToast('Input cleared', 'info');
             });
-
-            // Local complaint type detection
-            function detectComplaintTypeFromText(text) {
-                const textLower = text.toLowerCase();
-
-                const keywords = {
-                    'Street Light': ['light', 'lamp', 'street light', 'pole', 'dark', 'bulb', 'electricity', 'lighting', 'not working light', 'बत्ती', 'बिजली', 'લાઇટ'],
-                    'Water Supply': ['water', 'supply', 'pipe', 'leakage', 'tap', 'plumbing', 'sewage', 'no water', 'पानी', 'नल', 'પાણી'],
-                    'Road Damage': ['road', 'pothole', 'damage', 'crack', 'street', 'asphalt', 'pavement', 'broken road', 'सड़क', 'गड्ढा', 'રસ્તો'],
-                    'Garbage': ['garbage', 'waste', 'trash', 'rubbish', 'cleanup', 'dustbin', 'dump', 'sanitation', 'dirty', 'कचरा', 'कूड़ा', 'કચરો'],
-                    'Drainage': ['drain', 'drainage', 'gutter', 'sewer', 'नाली', 'ડ્રેનેજ']
-                };
-
-                let bestMatch = null;
-                let maxScore = 0;
-
-                for (const [type, words] of Object.entries(keywords)) {
-                    let score = 0;
-                    for (const word of words) {
-                        if (textLower.includes(word)) {
-                            score++;
-                        }
-                    }
-                    if (score > maxScore) {
-                        maxScore = score;
-                        bestMatch = type;
-                    }
-                }
-
-                return maxScore > 0 ? bestMatch : null;
-            }
-
-            // n8n Webhook Trigger
-            function triggerN8nWebhook(data) {
-                const n8nWebhookUrl = CONFIG.N8N?.WEBHOOK_URL || null;
-
-                if (n8nWebhookUrl) {
-                    fetch(n8nWebhookUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    }).then(response => {
-                        console.log('[N8N] Webhook triggered:', response);
-                    }).catch(error => {
-                        console.error('[N8N] Webhook error:', error);
-                    });
-                }
-            }
-
-            // Initial AI greeting
-            aiResponse.value = "🤖 Welcome to AI Smart Call Center!\n\n💬 Click the microphone button and describe your complaint. I'll help you register it quickly.\n\n✏️ You can also type your complaint directly in the input box below.\n\n🌐 Supports: English, Hindi, Gujarati";
         });
 
-        // Toast notification function
+        // Detect complaint type from text
+        function detectComplaintType(text) {
+            const lower = text.toLowerCase();
+
+            if (lower.includes('street light') || lower.includes('light') || lower.includes('bulb') || lower.includes('lamp')) {
+                return 'Street Light';
+            }
+            if (lower.includes('water') || lower.includes('pipe') || lower.includes('leak') || lower.includes('supply')) {
+                return 'Water Supply';
+            }
+            if (lower.includes('road') || lower.includes('pothole') || lower.includes('footpath') || lower.includes('street')) {
+                return 'Road Damage';
+            }
+            if (lower.includes('garbage') || lower.includes('waste') || lower.includes('trash') || lower.includes('dustbin')) {
+                return 'Garbage';
+            }
+            if (lower.includes('drain') || lower.includes('sewer') || lower.includes('gutter') || lower.includes('manhole')) {
+                return 'Drainage';
+            }
+
+            return null;
+        }
+
+        // Quick type selection
+        function selectQuickType(type) {
+            const userInput = document.getElementById('userInput');
+            const text = userInput.value.trim() || 'Issue with ' + type;
+
+            saveState({
+                complaint: { type: type },
+                userDetails: { description: text },
+                currentStep: 'address'
+            });
+
+            showToast('Selected: ' + type, 'success');
+
+            setTimeout(() => {
+                window.location.href = 'address.html';
+            }, 800);
+        }
+
+        // Save state helper
+        function saveState(data) {
+            try {
+                let state = JSON.parse(localStorage.getItem('complaintAppState') || '{}');
+                state = { ...state, ...data };
+                if (data.complaint) state.complaint = { ...state.complaint, ...data.complaint };
+                if (data.userDetails) state.userDetails = { ...state.userDetails, ...data.userDetails };
+                localStorage.setItem('complaintAppState', JSON.stringify(state));
+                console.log('[CALL] State saved:', state);
+            } catch (e) {
+                console.error('[CALL] State save error:', e);
+            }
+        }
+
+        // Show toast notification
         function showToast(message, type = 'info') {
-            const existingToast = document.querySelector('.toast');
-            if (existingToast) existingToast.remove();
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
 
             const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `<span>${type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ️'}</span> ${message}`;
+            toast.className = 'toast ' + type;
+            toast.innerHTML = message;
             document.body.appendChild(toast);
 
             setTimeout(() => {
@@ -402,35 +600,6 @@
             }, 3000);
         }
     </script>
-
-    <style>
-        .workflow-indicator {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--text-muted);
-        }
-
-        .workflow-indicator.active {
-            background: var(--success-gradient);
-            box-shadow: 0 0 10px rgba(56, 239, 125, 0.5);
-            animation: workflowPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes workflowPulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.2);
-                opacity: 0.7;
-            }
-        }
-    </style>
 </body>
 
 </html>

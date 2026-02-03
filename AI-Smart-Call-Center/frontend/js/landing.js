@@ -1,91 +1,125 @@
+// Landing page functionality - Charts and animations
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('[Landing] Page loaded, initializing...');
+
+    // Initialize chart
+    initLandingCharts();
+
+    // Initialize animations
+    initScrollAnimations();
+    animateNumbers();
+    initMobileNav();
+
+    // Load real data from backend
+    loadLandingPageData();
+
+    console.log('[Landing] Initialization complete');
+});
+
+// Initialize the complaints chart
 function initLandingCharts() {
     const ctx = document.getElementById('complaintsChart');
-    if (!ctx) return;
+    if (!ctx) {
+        console.log('[Landing] No chart element found');
+        return;
+    }
 
-    const chartCtx = ctx.getContext('2d');
+    console.log('[Landing] Creating chart...');
 
-    const gradient1 = chartCtx.createLinearGradient(0, 0, 0, 300);
-    gradient1.addColorStop(0, 'rgba(26, 79, 139, 0.9)');
-    gradient1.addColorStop(1, 'rgba(26, 79, 139, 0.5)');
+    try {
+        const chartCtx = ctx.getContext('2d');
 
-    const gradient2 = chartCtx.createLinearGradient(0, 0, 0, 300);
-    gradient2.addColorStop(0, 'rgba(19, 136, 8, 0.9)');
-    gradient2.addColorStop(1, 'rgba(19, 136, 8, 0.5)');
+        // Create gradients
+        const gradient1 = chartCtx.createLinearGradient(0, 0, 0, 300);
+        gradient1.addColorStop(0, 'rgba(26, 79, 139, 0.9)');
+        gradient1.addColorStop(1, 'rgba(26, 79, 139, 0.5)');
 
-    window.complaintsChartInstance = new Chart(chartCtx, {
-        type: 'bar',
-        data: {
-            labels: ['Street Light', 'Water Supply', 'Road Damage', 'Garbage', 'Drainage'],
-            datasets: [
-                {
-                    label: 'Total Complaints',
-                    data: [650, 890, 520, 487, 320],
-                    backgroundColor: gradient1,
-                    borderColor: '#1a4f8b',
-                    borderWidth: 2,
-                    borderRadius: 8,
-                    barThickness: 35
-                },
-                {
-                    label: 'Resolved',
-                    data: [580, 760, 420, 429, 280],
-                    backgroundColor: gradient2,
-                    borderColor: '#138808',
-                    borderWidth: 2,
-                    borderRadius: 8,
-                    barThickness: 35
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        color: '#4a5568',
-                        font: {
-                            family: "'Noto Sans', sans-serif",
-                            size: 12
-                        },
-                        padding: 20,
-                        usePointStyle: true
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)',
-                        drawBorder: false
+        const gradient2 = chartCtx.createLinearGradient(0, 0, 0, 300);
+        gradient2.addColorStop(0, 'rgba(19, 136, 8, 0.9)');
+        gradient2.addColorStop(1, 'rgba(19, 136, 8, 0.5)');
+
+        window.complaintsChartInstance = new Chart(chartCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Street Light', 'Water Supply', 'Road Damage', 'Garbage', 'Drainage'],
+                datasets: [
+                    {
+                        label: 'Total Complaints',
+                        data: [650, 890, 520, 487, 320],
+                        backgroundColor: gradient1,
+                        borderColor: '#1a4f8b',
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        barThickness: 35
                     },
-                    ticks: {
-                        color: '#4a5568',
-                        font: {
-                            family: "'Noto Sans', sans-serif",
-                            size: 12
+                    {
+                        label: 'Resolved',
+                        data: [580, 760, 420, 429, 280],
+                        backgroundColor: gradient2,
+                        borderColor: '#138808',
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        barThickness: 35
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#4a5568',
+                            font: {
+                                family: "'Noto Sans', sans-serif",
+                                size: 12
+                            },
+                            padding: 20,
+                            usePointStyle: true
                         }
                     }
                 },
-                y: {
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)',
-                        drawBorder: false
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#4a5568',
+                            font: {
+                                family: "'Noto Sans', sans-serif",
+                                size: 12
+                            }
+                        }
                     },
-                    ticks: {
-                        color: '#4a5568',
-                        font: {
-                            family: "'Noto Sans', sans-serif",
-                            size: 12
+                    y: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#4a5568',
+                            font: {
+                                family: "'Noto Sans', sans-serif",
+                                size: 12
+                            }
                         }
                     }
                 }
             }
-        }
-    });
+        });
+
+        console.log('[Landing] Chart created successfully');
+    } catch (error) {
+        console.error('[Landing] Chart error:', error);
+    }
 }
 
+// Scroll animations
 function initScrollAnimations() {
     const statBoxes = document.querySelectorAll('.stat-box');
     const serviceCards = document.querySelectorAll('.service-card');
@@ -111,6 +145,7 @@ function initScrollAnimations() {
     stepCards.forEach(card => observer.observe(card));
 }
 
+// Animate numbers counting up
 function animateNumbers() {
     const numbers = document.querySelectorAll('.stat-box .number');
 
@@ -144,16 +179,19 @@ function animateNumbers() {
     });
 }
 
+// Mobile navigation
 function initMobileNav() {
     const navLinks = document.querySelector('.nav-links');
     const navBrand = document.querySelector('.nav-brand');
+
+    if (!navLinks || !navBrand) return;
 
     const menuBtn = document.createElement('button');
     menuBtn.className = 'mobile-menu-btn';
     menuBtn.innerHTML = '☰';
     menuBtn.style.cssText = `
         display: none;
-        background: var(--primary);
+        background: var(--primary, #1a4f8b);
         color: white;
         border: none;
         padding: 0.5rem 1rem;
@@ -189,48 +227,34 @@ function initMobileNav() {
     }
 }
 
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-}
-
-// ===== Real Data Loading Functions =====
+// Load real data from backend
 async function loadLandingPageData() {
     try {
-        console.log('[Landing] Loading real data from backend...');
+        console.log('[Landing] Loading data from backend...');
 
-        // Fetch complaints from database
-        const response = await fetch(`${CONFIG.API.BASE_URL}${CONFIG.API.ENDPOINTS.COMPLAINTS}`);
+        const response = await fetch('http://localhost:5000/api/complaints');
+
         if (response.ok) {
             const data = await response.json();
+            console.log('[Landing] Data received:', data);
+
             if (data.success && data.data) {
                 updateLandingStats(data.data);
                 updateChartData(data.data);
             }
         }
     } catch (error) {
-        console.error('[Landing] Error loading landing page data:', error);
-        // Use default data if API fails
+        console.log('[Landing] Could not load data from backend:', error.message);
+        // Keep default sample data
     }
 }
 
+// Update statistics on the page
 function updateLandingStats(complaints) {
-    // Calculate statistics
     const totalComplaints = complaints.length;
     const resolvedComplaints = complaints.filter(c => c.status === 'resolved').length;
     const pendingComplaints = complaints.filter(c => c.status === 'pending' || c.status === 'in_progress').length;
 
-    // Update DOM
     const totalEl = document.getElementById('totalComplaints');
     const resolvedEl = document.getElementById('resolvedComplaints');
     const pendingEl = document.getElementById('pendingComplaints');
@@ -242,7 +266,10 @@ function updateLandingStats(complaints) {
     console.log('[Landing] Stats updated:', { totalComplaints, resolvedComplaints, pendingComplaints });
 }
 
+// Update chart with real data
 function updateChartData(complaints) {
+    if (!window.complaintsChartInstance) return;
+
     // Aggregate complaints by type
     const complaintsByType = {};
     const resolvedByType = {};
@@ -256,11 +283,13 @@ function updateChartData(complaints) {
         }
     });
 
-    // Update chart if instance exists
-    if (window.complaintsChartInstance) {
-        const types = Object.keys(complaintsByType);
+    const types = Object.keys(complaintsByType);
 
+    if (types.length > 0) {
         window.complaintsChartInstance.data.labels = types;
         window.complaintsChartInstance.data.datasets[0].data = types.map(t => complaintsByType[t]);
         window.complaintsChartInstance.data.datasets[1].data = types.map(t => resolvedByType[t] || 0);
         window.complaintsChartInstance.update();
+        console.log('[Landing] Chart updated with real data');
+    }
+}

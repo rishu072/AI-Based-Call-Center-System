@@ -1,12 +1,12 @@
 const CONFIG = {
     API: {
-        BASE_URL: 'http://localhost:5000/api',
+        BASE_URL: 'http://localhost:5000',
         ENDPOINTS: {
-            COMPLAINTS: '/complaints',
-            STATISTICS: '/complaints/statistics',
-            STATUS: '/complaints/status',
-            HEALTH: '/health',
-            INFO: '/info'
+            COMPLAINTS: '/api/complaints',
+            STATISTICS: '/api/complaints/statistics',
+            STATUS: '/api/complaints/status',
+            HEALTH: '/api/health',
+            INFO: '/api/info'
         },
         TIMEOUT: 30000,
         RETRY_ATTEMPTS: 3,
@@ -22,10 +22,10 @@ const CONFIG = {
         DEFAULT_LANGUAGE: 'en-US',
 
         RECOGNITION: {
-            CONTINUOUS: false,
+            CONTINUOUS: true,
             INTERIM_RESULTS: true,
             MAX_ALTERNATIVES: 1,
-            TIMEOUT: 10000
+            TIMEOUT: 15000
         },
 
         SPEECH_SYNTHESIS: {
@@ -74,7 +74,9 @@ const CONFIG = {
         'Street Light': '💡 Street Light',
         'Water Supply': '💧 Water Supply',
         'Road Damage': '🛣️ Road Damage',
-        'Garbage': '🗑️ Garbage'
+        'Garbage': '🗑️ Garbage',
+        'Sanitation': '🧹 Sanitation',
+        'Other': '📋 Other'
     },
 
     ZONES: [
@@ -111,7 +113,7 @@ const CONFIG = {
             API_KEY: null
         },
 
-        ENABLED: true,
+        ENABLED: false,
 
         RETRY: {
             ATTEMPTS: 3,

@@ -205,14 +205,20 @@
         }
         // Load and display complaint ID from state
         function loadComplaintId() {
-            const currentState = getState();
-
-            if (CONFIG.DEBUG) {
-                console.log('Success page state:', currentState);
+            let state = {};
+            try {
+                state = JSON.parse(localStorage.getItem('complaintAppState') || '{}');
+                console.log('[SUCCESS] State:', state);
+            } catch (e) {
+                console.error('[SUCCESS] Error loading state:', e);
             }
 
-            if (currentState.complaintId) {
-                document.getElementById('complaintIdDisplay').textContent = currentState.complaintId;
+            if (state.complaintId) {
+                document.getElementById('complaintIdDisplay').textContent = state.complaintId;
+            } else {
+                // Generate a temporary ID if none exists
+                const tempId = 'COMP-' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-TEMP';
+                document.getElementById('complaintIdDisplay').textContent = tempId;
             }
         }
 
