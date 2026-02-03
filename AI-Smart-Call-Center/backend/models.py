@@ -16,6 +16,9 @@ class ComplaintType(str, Enum):
     WATER_SUPPLY = "Water Supply"
     ROAD_DAMAGE = "Road Damage"
     GARBAGE = "Garbage"
+    DRAINAGE = "Drainage"
+    SANITATION = "Sanitation"
+    OTHER = "Other"
 
 
 class ComplaintStatus(str, Enum):

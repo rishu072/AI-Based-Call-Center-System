@@ -192,6 +192,9 @@
 </head>
 
 <body>
+    <!-- Particles Container for Animation -->
+    <div id="particles" class="particles-container"></div>
+
     <!-- Top Navigation -->
     <nav class="top-nav">
         <a href="index.html" class="nav-brand">
@@ -294,6 +297,7 @@
             'Road Damage': '🛣️',
             'Garbage': '🗑️',
             'Drainage': '🚿',
+            'Sanitation': '🧹',
             'Other': '📝'
         };
 
@@ -386,6 +390,20 @@
                     { id: 'no_drain', text: 'No drainage system' },
                     { id: 'bad_smell', text: 'Bad smell from drain' },
                     { id: 'manhole_open', text: 'Manhole cover missing / Open' }
+                ],
+                'Sanitation': [
+                    { id: 'public_toilet', text: 'Public toilet cleaning required' },
+                    { id: 'open_defecation', text: 'Open defecation issue' },
+                    { id: 'mosquito_breeding', text: 'Mosquito breeding / Stagnant water' },
+                    { id: 'public_place_dirty', text: 'Public place is dirty' },
+                    { id: 'urination_spot', text: 'Public urination spot' }
+                ],
+                'Other': [
+                    { id: 'tree_fallen', text: 'Tree fallen / Dangerous tree' },
+                    { id: 'mosquito', text: 'Mosquito breeding' },
+                    { id: 'stray_animals', text: 'Stray animal nuisance' },
+                    { id: 'encroachment', text: 'Illegal encroachment' },
+                    { id: 'general', text: 'Other / General complaint' }
                 ]
             };
 

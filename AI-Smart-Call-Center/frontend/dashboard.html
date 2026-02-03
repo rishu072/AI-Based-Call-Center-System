@@ -15,6 +15,9 @@
 </head>
 
 <body>
+    <!-- Particles Container for Animation -->
+    <div id="particles" class="particles-container"></div>
+
     <!-- Top Navigation -->
     <nav class="top-nav">
         <a href="index.html" class="nav-brand">
@@ -38,7 +41,11 @@
     <div class="dashboard-container">
         <header class="dashboard-header">
             <h1>📊 Analytics Dashboard</h1>
-            <p>Real-time insights and complaint tracking powered by n8n automation</p>
+            <p>Real-time insights and complaint tracking powered by AI automation</p>
+            <div class="connection-status" id="connectionStatus">
+                <span class="status-dot online"></span>
+                <span>Live Data</span>
+            </div>
         </header>
 
         <main class="dashboard-main">
@@ -51,40 +58,42 @@
                         style="display: flex; justify-content: center; gap: var(--space-md); margin-bottom: var(--space-xl); padding: var(--space-md);">
                         <a href="index.html" class="btn btn-secondary" style="padding: 0.75rem 1.25rem;"> Home</a>
                         <a href="call.html" class="btn btn-primary" style="padding: 0.75rem 1.25rem;"> New Complaint</a>
+                        <button id="refreshBtn" class="btn btn-secondary" style="padding: 0.75rem 1.25rem;">🔄
+                            Refresh</button>
                     </div>
 
                     <!-- Stats Grid -->
                     <div class="dashboard-grid">
                         <div class="stat-card">
                             <div class="stat-icon">📝</div>
-                            <div class="stat-value" id="totalComplaints">0</div>
+                            <div class="stat-value" id="totalComplaints">--</div>
                             <div class="stat-label">Total Complaints</div>
-                            <div class="stat-trend up">
-                                <span>↑ 12%</span> vs last month
+                            <div class="stat-trend up" id="totalTrend">
+                                <span>↑ --</span> vs last week
                             </div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">✅</div>
-                            <div class="stat-value" id="resolvedComplaints">0</div>
+                            <div class="stat-value" id="resolvedComplaints">--</div>
                             <div class="stat-label">Resolved</div>
-                            <div class="stat-trend up">
-                                <span>↑ 8%</span> vs last month
+                            <div class="stat-trend up" id="resolvedTrend">
+                                <span>↑ --</span> vs last week
                             </div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">⏳</div>
-                            <div class="stat-value" id="pendingComplaints">0</div>
+                            <div class="stat-value" id="pendingComplaints">--</div>
                             <div class="stat-label">In Progress</div>
-                            <div class="stat-trend down">
-                                <span>↓ 5%</span> vs last month
+                            <div class="stat-trend down" id="pendingTrend">
+                                <span>↓ --</span> vs last week
                             </div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">⚡</div>
-                            <div class="stat-value" id="avgResolution">0</div>
+                            <div class="stat-value" id="avgResolution">--</div>
                             <div class="stat-label">Avg. Resolution (Days)</div>
-                            <div class="stat-trend up">
-                                <span>↑ 15%</span> faster
+                            <div class="stat-trend up" id="resolutionTrend">
+                                <span>↑ --</span> faster
                             </div>
                         </div>
                     </div>
@@ -133,39 +142,8 @@
                                 </thead>
                                 <tbody id="recentComplaints">
                                     <tr>
-                                        <td><code>COMP-2026012115234</code></td>
-                                        <td><span class="category-badge street-light">💡 Street Light</span></td>
-                                        <td>Sector 5</td>
-                                        <td><span class="status-tag pending">Pending</span></td>
-                                        <td>2 min ago</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>COMP-2026012115198</code></td>
-                                        <td><span class="category-badge water-supply">💧 Water Supply</span></td>
-                                        <td>Gandhi Nagar</td>
-                                        <td><span class="status-tag processing">Processing</span></td>
-                                        <td>15 min ago</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>COMP-2026012115167</code></td>
-                                        <td><span class="category-badge road-damage">🛣️ Road Damage</span></td>
-                                        <td>Main Road</td>
-                                        <td><span class="status-tag resolved">Resolved</span></td>
-                                        <td>1 hour ago</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>COMP-2026012115145</code></td>
-                                        <td><span class="category-badge garbage">🗑️ Garbage</span></td>
-                                        <td>Ward 3</td>
-                                        <td><span class="status-tag resolved">Resolved</span></td>
-                                        <td>2 hours ago</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>COMP-2026012115123</code></td>
-                                        <td><span class="category-badge water-supply">💧 Water Supply</span></td>
-                                        <td>Sector 12</td>
-                                        <td><span class="status-tag resolved">Resolved</span></td>
-                                        <td>3 hours ago</td>
+                                        <td colspan="5" style="text-align: center; color: var(--text-muted);">Loading
+                                            complaints...</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -186,8 +164,7 @@
                         </p>
 
                         <div style="margin-bottom: var(--space-md);">
-                            <input type="text" id="trackingId"
-                                placeholder="Enter Complaint ID (e.g., COMP-2026012115234)"
+                            <input type="text" id="trackingId" placeholder="Enter Complaint ID (e.g., VMC-SL-...)"
                                 style="width: 100%; padding: var(--space-sm); border: 2px solid var(--border-color); border-radius: var(--radius-md); font-size: 0.95rem;">
                         </div>
 
@@ -243,37 +220,69 @@
                             <div
                                 style="display: flex; justify-content: space-between; padding: var(--space-xs); border-bottom: 1px solid var(--border-light);">
                                 <span style="color: var(--text-muted); font-size: 0.85rem;">Today</span>
-                                <strong style="color: var(--primary);" id="todayCount">0</strong>
+                                <strong style="color: var(--primary);" id="todayCount">--</strong>
                             </div>
                             <div
                                 style="display: flex; justify-content: space-between; padding: var(--space-xs); border-bottom: 1px solid var(--border-light);">
                                 <span style="color: var(--text-muted); font-size: 0.85rem;">This Week</span>
-                                <strong style="color: var(--primary);" id="weekCount">0</strong>
+                                <strong style="color: var(--primary);" id="weekCount">--</strong>
                             </div>
                             <div
                                 style="display: flex; justify-content: space-between; padding: var(--space-xs); border-bottom: 1px solid var(--border-light);">
                                 <span style="color: var(--text-muted); font-size: 0.85rem;">This Month</span>
-                                <strong style="color: var(--primary);" id="monthCount">0</strong>
+                                <strong style="color: var(--primary);" id="monthCount">--</strong>
                             </div>
                             <div style="display: flex; justify-content: space-between; padding: var(--space-xs);">
                                 <span style="color: var(--text-muted); font-size: 0.85rem;">Resolution Rate</span>
-                                <strong style="color: var(--success);" id="resolutionRate">0%</strong>
+                                <strong style="color: var(--success);" id="resolutionRate">--</strong>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Last Updated -->
+                    <div
+                        style="text-align: center; margin-top: var(--space-md); color: var(--text-muted); font-size: 0.8rem;">
+                        Last updated: <span id="lastUpdated">--</span>
                     </div>
                 </div>
             </div>
         </main>
 
         <footer class="footer">
-            <p>© 2026 Vadodara Nagar Samwad | Municipal Corporation | Powered by n8n Automation</p>
+            <p>© 2026 Vadodara Nagar Samwad | Municipal Corporation | AI-Powered Citizen Services</p>
         </footer>
     </div>
 
+    <script src="js/config.js"></script>
     <script>
+        // ========== DASHBOARD APPLICATION ==========
+
+        // Chart instances (for updating)
+        let categoryChartInstance = null;
+        let statusChartInstance = null;
+        let trendChartInstance = null;
+
+        // Cache for complaints data
+        let complaintsCache = [];
+        let lastFetchTime = null;
+
+        // Government theme colors
+        const CHART_COLORS = {
+            govBlue: '#1a4f8b',
+            govGreen: '#138808',
+            govSaffron: '#f7931e',
+            textColor: '#4a5568',
+            gridColor: 'rgba(0, 0, 0, 0.05)',
+            pending: '#f7931e',
+            inProgress: '#1a4f8b',
+            resolved: '#138808'
+        };
+
         // Generate floating particles
         function createParticles() {
             const container = document.getElementById('particles');
+            if (!container) return;
+
             const particleCount = 25;
 
             for (let i = 0; i < particleCount; i++) {
@@ -289,66 +298,72 @@
         }
 
         // Animate stat numbers
-        function animateStats() {
-            const stats = [
-                { id: 'totalComplaints', end: 2547 },
-                { id: 'resolvedComplaints', end: 2189 },
-                { id: 'pendingComplaints', end: 358 },
-                { id: 'avgResolution', end: 2.3, decimal: true }
-            ];
+        function animateValue(element, start, end, duration, isDecimal = false) {
+            const range = end - start;
+            const startTime = performance.now();
 
-            stats.forEach(stat => {
-                const element = document.getElementById(stat.id);
-                let current = 0;
-                const increment = stat.end / 60;
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= stat.end) {
-                        current = stat.end;
-                        clearInterval(timer);
-                    }
-                    element.textContent = stat.decimal
-                        ? current.toFixed(1)
-                        : Math.floor(current).toLocaleString();
-                }, 20);
-            });
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeProgress = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+                const current = start + (range * easeProgress);
+
+                if (isDecimal) {
+                    element.textContent = current.toFixed(1);
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString();
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+
+            requestAnimationFrame(update);
         }
 
         // Initialize Charts
         function initCharts() {
-            // Government theme colors
-            const govBlue = '#1a4f8b';
-            const govGreen = '#138808';
-            const govSaffron = '#f7931e';
-            const textColor = '#4a5568';
-            const gridColor = 'rgba(0, 0, 0, 0.05)';
+            initCategoryChart([]);
+            initStatusChart({ resolved: 0, in_progress: 0, pending: 0 });
+            initTrendChart([]);
+        }
 
-            // Category Bar Chart
-            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-            const categoryGradient1 = categoryCtx.createLinearGradient(0, 0, 0, 300);
+        function initCategoryChart(data) {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+
+            if (categoryChartInstance) {
+                categoryChartInstance.destroy();
+            }
+
+            const categoryGradient1 = ctx.createLinearGradient(0, 0, 0, 300);
             categoryGradient1.addColorStop(0, 'rgba(26, 79, 139, 0.9)');
             categoryGradient1.addColorStop(1, 'rgba(26, 79, 139, 0.5)');
 
-            const categoryGradient2 = categoryCtx.createLinearGradient(0, 0, 0, 300);
+            const categoryGradient2 = ctx.createLinearGradient(0, 0, 0, 300);
             categoryGradient2.addColorStop(0, 'rgba(19, 136, 8, 0.9)');
             categoryGradient2.addColorStop(1, 'rgba(19, 136, 8, 0.5)');
 
-            new Chart(categoryCtx, {
+            const labels = Object.keys(data.total || {});
+            const totalData = Object.values(data.total || {});
+            const resolvedData = Object.values(data.resolved || {});
+
+            categoryChartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Street Light', 'Water Supply', 'Road Damage', 'Garbage'],
+                    labels: labels.length > 0 ? labels : ['Street Light', 'Water Supply', 'Road Damage', 'Garbage', 'Drainage'],
                     datasets: [{
                         label: 'Total',
-                        data: [650, 890, 520, 487],
+                        data: totalData.length > 0 ? totalData : [0, 0, 0, 0, 0],
                         backgroundColor: categoryGradient1,
-                        borderColor: govBlue,
+                        borderColor: CHART_COLORS.govBlue,
                         borderWidth: 2,
                         borderRadius: 8
                     }, {
                         label: 'Resolved',
-                        data: [580, 760, 420, 429],
+                        data: resolvedData.length > 0 ? resolvedData : [0, 0, 0, 0, 0],
                         backgroundColor: categoryGradient2,
-                        borderColor: govGreen,
+                        borderColor: CHART_COLORS.govGreen,
                         borderWidth: 2,
                         borderRadius: 8
                     }]
@@ -359,34 +374,40 @@
                     plugins: {
                         legend: {
                             position: 'bottom',
-                            labels: { color: textColor, padding: 20 }
+                            labels: { color: CHART_COLORS.textColor, padding: 20 }
                         }
                     },
                     scales: {
                         x: {
-                            grid: { color: gridColor },
-                            ticks: { color: textColor }
+                            grid: { color: CHART_COLORS.gridColor },
+                            ticks: { color: CHART_COLORS.textColor }
                         },
                         y: {
-                            grid: { color: gridColor },
-                            ticks: { color: textColor }
+                            grid: { color: CHART_COLORS.gridColor },
+                            ticks: { color: CHART_COLORS.textColor }
                         }
                     }
                 }
             });
+        }
 
-            // Status Doughnut Chart
-            const statusCtx = document.getElementById('statusChart').getContext('2d');
-            new Chart(statusCtx, {
+        function initStatusChart(statusCounts) {
+            const ctx = document.getElementById('statusChart').getContext('2d');
+
+            if (statusChartInstance) {
+                statusChartInstance.destroy();
+            }
+
+            statusChartInstance = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels: ['Resolved', 'In Progress', 'Pending'],
                     datasets: [{
-                        data: [2189, 245, 113],
+                        data: [statusCounts.resolved || 0, statusCounts.in_progress || 0, statusCounts.pending || 0],
                         backgroundColor: [
-                            govGreen,
-                            govBlue,
-                            govSaffron
+                            CHART_COLORS.govGreen,
+                            CHART_COLORS.govBlue,
+                            CHART_COLORS.govSaffron
                         ],
                         borderColor: '#ffffff',
                         borderWidth: 3,
@@ -400,43 +421,53 @@
                     plugins: {
                         legend: {
                             position: 'bottom',
-                            labels: { color: textColor, padding: 15 }
+                            labels: { color: CHART_COLORS.textColor, padding: 15 }
                         }
                     }
                 }
             });
+        }
 
-            // Trend Line Chart
-            const trendCtx = document.getElementById('trendChart').getContext('2d');
-            const trendGradient = trendCtx.createLinearGradient(0, 0, 0, 350);
+        function initTrendChart(weeklyData) {
+            const ctx = document.getElementById('trendChart').getContext('2d');
+
+            if (trendChartInstance) {
+                trendChartInstance.destroy();
+            }
+
+            const trendGradient = ctx.createLinearGradient(0, 0, 0, 350);
             trendGradient.addColorStop(0, 'rgba(26, 79, 139, 0.2)');
             trendGradient.addColorStop(1, 'rgba(26, 79, 139, 0)');
 
-            new Chart(trendCtx, {
+            const labels = weeklyData.labels || ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const newComplaints = weeklyData.newComplaints || [0, 0, 0, 0, 0, 0, 0];
+            const resolvedComplaints = weeklyData.resolved || [0, 0, 0, 0, 0, 0, 0];
+
+            trendChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    labels: labels,
                     datasets: [{
                         label: 'New Complaints',
-                        data: [65, 59, 80, 81, 56, 55, 40],
+                        data: newComplaints,
                         fill: true,
                         backgroundColor: trendGradient,
-                        borderColor: govBlue,
+                        borderColor: CHART_COLORS.govBlue,
                         borderWidth: 3,
                         tension: 0.4,
-                        pointBackgroundColor: govBlue,
+                        pointBackgroundColor: CHART_COLORS.govBlue,
                         pointBorderColor: '#fff',
                         pointBorderWidth: 2,
                         pointRadius: 5,
                         pointHoverRadius: 8
                     }, {
                         label: 'Resolved',
-                        data: [45, 52, 60, 74, 48, 50, 35],
+                        data: resolvedComplaints,
                         fill: false,
-                        borderColor: govGreen,
+                        borderColor: CHART_COLORS.govGreen,
                         borderWidth: 3,
                         tension: 0.4,
-                        pointBackgroundColor: govGreen,
+                        pointBackgroundColor: CHART_COLORS.govGreen,
                         pointBorderColor: '#fff',
                         pointBorderWidth: 2,
                         pointRadius: 5,
@@ -449,85 +480,121 @@
                     plugins: {
                         legend: {
                             position: 'bottom',
-                            labels: { color: textColor, padding: 20 }
+                            labels: { color: CHART_COLORS.textColor, padding: 20 }
                         }
                     },
                     scales: {
                         x: {
-                            grid: { color: gridColor },
-                            ticks: { color: textColor }
+                            grid: { color: CHART_COLORS.gridColor },
+                            ticks: { color: CHART_COLORS.textColor }
                         },
                         y: {
-                            grid: { color: gridColor },
-                            ticks: { color: textColor }
+                            grid: { color: CHART_COLORS.gridColor },
+                            ticks: { color: CHART_COLORS.textColor }
                         }
                     }
                 }
             });
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function () {
-            createParticles();
-            initCharts();
-
-            // Load real data from API
-            loadRealData();
-        });
-
         // Load real data from API
         async function loadRealData() {
+            updateConnectionStatus('loading');
+
             try {
-                const response = await fetch('http://localhost:5000/api/complaints');
+                const response = await fetch(CONFIG.API.BASE_URL + '/api/complaints');
                 if (!response.ok) throw new Error('Failed to fetch');
 
                 const data = await response.json();
                 const complaints = data.data || [];
+                complaintsCache = complaints;
+                lastFetchTime = new Date();
 
-                // Calculate stats
-                const total = complaints.length;
-                const resolved = complaints.filter(c => c.status === 'resolved').length;
-                const pending = complaints.filter(c => c.status === 'pending' || c.status === 'in_progress').length;
-                const resolutionRate = total > 0 ? Math.round((resolved / total) * 100) : 0;
+                // Process the data
+                processAndDisplayData(complaints);
 
-                // Calculate time-based stats
-                const now = new Date();
-                const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                const weekStart = new Date(todayStart);
-                weekStart.setDate(weekStart.getDate() - 7);
-                const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+                updateConnectionStatus('online');
+                document.getElementById('lastUpdated').textContent = lastFetchTime.toLocaleTimeString();
 
-                const todayCount = complaints.filter(c => new Date(c.created_at) >= todayStart).length;
-                const weekCount = complaints.filter(c => new Date(c.created_at) >= weekStart).length;
-                const monthCount = complaints.filter(c => new Date(c.created_at) >= monthStart).length;
-
-                // Update main stats
-                document.getElementById('totalComplaints').textContent = total.toLocaleString();
-                document.getElementById('resolvedComplaints').textContent = resolved.toLocaleString();
-                document.getElementById('pendingComplaints').textContent = pending.toLocaleString();
-                document.getElementById('avgResolution').textContent = total > 0 ? '2.3' : '0';
-
-                // Update Quick Stats sidebar
-                document.getElementById('todayCount').textContent = todayCount;
-                document.getElementById('weekCount').textContent = weekCount;
-                document.getElementById('monthCount').textContent = monthCount;
-                document.getElementById('resolutionRate').textContent = resolutionRate + '%';
-
-                // Update charts with real data
-                updateChartsWithRealData(complaints);
-
-                // Update recent complaints table
-                updateRecentComplaintsTable(complaints);
-
-                console.log('[Dashboard] Loaded', total, 'complaints from API');
+                console.log('[Dashboard] Loaded', complaints.length, 'complaints from API');
 
             } catch (error) {
-                console.log('[Dashboard] Could not load from API, using defaults:', error.message);
-                // Keep showing 0 values
-                document.getElementById('totalComplaints').textContent = '0';
-                document.getElementById('resolvedComplaints').textContent = '0';
-                document.getElementById('pendingComplaints').textContent = '0';
-                document.getElementById('avgResolution').textContent = '0';
+                console.log('[Dashboard] Could not load from API:', error.message);
+                updateConnectionStatus('offline');
+
+                // Show zeros if no data
+                displayEmptyState();
+            }
+        }
+
+        function processAndDisplayData(complaints) {
+            const total = complaints.length;
+            const resolved = complaints.filter(c => c.status === 'resolved').length;
+            const inProgress = complaints.filter(c => c.status === 'in_progress').length;
+            const pending = complaints.filter(c => c.status === 'pending').length;
+            const resolutionRate = total > 0 ? Math.round((resolved / total) * 100) : 0;
+
+            // Calculate time-based stats
+            const now = new Date();
+            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const weekStart = new Date(todayStart);
+            weekStart.setDate(weekStart.getDate() - 7);
+            const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+            const todayCount = complaints.filter(c => new Date(c.created_at) >= todayStart).length;
+            const weekCount = complaints.filter(c => new Date(c.created_at) >= weekStart).length;
+            const monthCount = complaints.filter(c => new Date(c.created_at) >= monthStart).length;
+
+            // Animate main stats
+            animateValue(document.getElementById('totalComplaints'), 0, total, 1000);
+            animateValue(document.getElementById('resolvedComplaints'), 0, resolved, 1000);
+            animateValue(document.getElementById('pendingComplaints'), 0, pending + inProgress, 1000);
+            animateValue(document.getElementById('avgResolution'), 0, total > 0 ? 2.3 : 0, 1000, true);
+
+            // Update Quick Stats sidebar
+            document.getElementById('todayCount').textContent = todayCount;
+            document.getElementById('weekCount').textContent = weekCount;
+            document.getElementById('monthCount').textContent = monthCount;
+            document.getElementById('resolutionRate').textContent = resolutionRate + '%';
+
+            // Update charts with real data
+            updateChartsWithRealData(complaints);
+
+            // Update recent complaints table
+            updateRecentComplaintsTable(complaints);
+        }
+
+        function displayEmptyState() {
+            document.getElementById('totalComplaints').textContent = '0';
+            document.getElementById('resolvedComplaints').textContent = '0';
+            document.getElementById('pendingComplaints').textContent = '0';
+            document.getElementById('avgResolution').textContent = '0';
+            document.getElementById('todayCount').textContent = '0';
+            document.getElementById('weekCount').textContent = '0';
+            document.getElementById('monthCount').textContent = '0';
+            document.getElementById('resolutionRate').textContent = '0%';
+        }
+
+        function updateConnectionStatus(status) {
+            const statusEl = document.getElementById('connectionStatus');
+            const dot = statusEl.querySelector('.status-dot');
+            const text = statusEl.querySelector('span:last-child');
+
+            dot.className = 'status-dot';
+
+            switch (status) {
+                case 'online':
+                    dot.classList.add('online');
+                    text.textContent = 'Live Data';
+                    break;
+                case 'loading':
+                    dot.classList.add('loading');
+                    text.textContent = 'Loading...';
+                    break;
+                case 'offline':
+                    dot.classList.add('offline');
+                    text.textContent = 'Offline';
+                    break;
             }
         }
 
@@ -538,6 +605,7 @@
             // Count by category
             const categories = {};
             const resolvedByCategory = {};
+
             complaints.forEach(c => {
                 const type = c.complaint_type || 'Other';
                 categories[type] = (categories[type] || 0) + 1;
@@ -546,21 +614,63 @@
                 }
             });
 
+            // Update category chart
+            initCategoryChart({
+                total: categories,
+                resolved: resolvedByCategory
+            });
+
             // Count by status
             const statusCounts = {
                 resolved: complaints.filter(c => c.status === 'resolved').length,
                 in_progress: complaints.filter(c => c.status === 'in_progress').length,
                 pending: complaints.filter(c => c.status === 'pending').length
             };
+
+            // Update status chart
+            initStatusChart(statusCounts);
+
+            // Calculate weekly trend
+            const weeklyData = calculateWeeklyTrend(complaints);
+            initTrendChart(weeklyData);
+        }
+
+        function calculateWeeklyTrend(complaints) {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const now = new Date();
+            const labels = [];
+            const newComplaints = [];
+            const resolved = [];
+
+            // Last 7 days
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date(now);
+                date.setDate(date.getDate() - i);
+                const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                const dayEnd = new Date(dayStart);
+                dayEnd.setDate(dayEnd.getDate() + 1);
+
+                labels.push(days[date.getDay()]);
+
+                const dayComplaints = complaints.filter(c => {
+                    const created = new Date(c.created_at);
+                    return created >= dayStart && created < dayEnd;
+                });
+
+                newComplaints.push(dayComplaints.length);
+                resolved.push(dayComplaints.filter(c => c.status === 'resolved').length);
+            }
+
+            return { labels, newComplaints, resolved };
         }
 
         // Update recent complaints table with real data
         function updateRecentComplaintsTable(complaints) {
             const tbody = document.getElementById('recentComplaints');
-            if (!tbody || complaints.length === 0) {
-                if (tbody) {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No complaints registered yet</td></tr>';
-                }
+            if (!tbody) return;
+
+            if (complaints.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No complaints registered yet</td></tr>';
                 return;
             }
 
@@ -571,12 +681,12 @@
                 const statusClass = c.status === 'resolved' ? 'resolved' : (c.status === 'in_progress' ? 'processing' : 'pending');
                 const statusText = c.status === 'resolved' ? 'Resolved' : (c.status === 'in_progress' ? 'Processing' : 'Pending');
                 const type = c.complaint_type || 'Other';
-                const typeEmoji = type.includes('Street') ? '💡' : (type.includes('Water') ? '💧' : (type.includes('Road') ? '🛣️' : '🗑️'));
+                const typeEmoji = getTypeEmoji(type);
                 const timeAgo = getTimeAgo(c.created_at);
 
                 return `
                     <tr>
-                        <td><code>${c.id}</code></td>
+                        <td><code>${c.id || c.complaint_id || 'N/A'}</code></td>
                         <td><span class="category-badge">${typeEmoji} ${type}</span></td>
                         <td>${c.area || c.ward || 'N/A'}</td>
                         <td><span class="status-tag ${statusClass}">${statusText}</span></td>
@@ -584,6 +694,19 @@
                     </tr>
                 `;
             }).join('');
+        }
+
+        function getTypeEmoji(type) {
+            const emojis = {
+                'Street Light': '💡',
+                'Water Supply': '💧',
+                'Road Damage': '🛣️',
+                'Garbage': '🗑️',
+                'Drainage': '🚿',
+                'Sanitation': '🧹',
+                'Other': '📋'
+            };
+            return emojis[type] || '📋';
         }
 
         // Calculate time ago
@@ -601,110 +724,188 @@
             return diffDays + ' day' + (diffDays > 1 ? 's' : '') + ' ago';
         }
 
-        // ID Tracker Initialization
-        (function initIDTracker() {
-            const trackButton = document.getElementById('trackButton');
-            const trackingId = document.getElementById('trackingId');
+        // ID Tracker - Track complaint from API
+        async function trackComplaint(complaintId) {
             const trackingResults = document.getElementById('trackingResults');
             const trackingError = document.getElementById('trackingError');
 
-            // Sample complaint database (in real app, this would come from backend)
-            const complaintDatabase = {
-                'COMP-2026012115234': {
-                    id: 'COMP-2026012115234',
-                    category: '💡 Street Light',
-                    area: 'Sector 5',
-                    status: 'pending',
-                    time: '2 min ago',
-                    description: 'Street light not working on Main Road near Park'
-                },
-                'COMP-2026012115198': {
-                    id: 'COMP-2026012115198',
-                    category: '💧 Water Supply',
-                    area: 'Gandhi Nagar',
-                    status: 'processing',
-                    time: '15 min ago',
-                    description: 'Low water pressure in the morning hours'
-                },
-                'COMP-2026012115167': {
-                    id: 'COMP-2026012115167',
-                    category: '🛣️ Road Damage',
-                    area: 'Main Road',
-                    status: 'resolved',
-                    time: '1 hour ago',
-                    description: 'Pothole causing traffic issues, fixed successfully'
-                },
-                'COMP-2026012115145': {
-                    id: 'COMP-2026012115145',
-                    category: '🗑️ Garbage',
-                    area: 'Ward 3',
-                    status: 'resolved',
-                    time: '2 hours ago',
-                    description: 'Garbage collection delayed, now resolved'
-                },
-                'COMP-2026012115123': {
-                    id: 'COMP-2026012115123',
-                    category: '💧 Water Supply',
-                    area: 'Sector 12',
-                    status: 'resolved',
-                    time: '3 hours ago',
-                    description: 'Water supply interruption, restored'
+            // Hide previous results
+            trackingResults.style.display = 'none';
+            trackingError.style.display = 'none';
+
+            if (!complaintId) {
+                trackingError.textContent = '⚠️ Please enter a complaint ID';
+                trackingError.style.display = 'block';
+                return;
+            }
+
+            try {
+                // First check cache
+                let complaint = complaintsCache.find(c =>
+                    (c.id && c.id.toUpperCase() === complaintId.toUpperCase()) ||
+                    (c.complaint_id && c.complaint_id.toUpperCase() === complaintId.toUpperCase())
+                );
+
+                // If not in cache, try API
+                if (!complaint) {
+                    const response = await fetch(`${CONFIG.API.BASE_URL}/api/complaints/${complaintId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        complaint = data.data || data;
+                    }
                 }
-            };
-
-            trackButton.addEventListener('click', function () {
-                const inputId = trackingId.value.trim().toUpperCase();
-
-                // Hide previous results
-                trackingResults.style.display = 'none';
-                trackingError.style.display = 'none';
-
-                if (!inputId) {
-                    trackingError.textContent = '⚠️ Please enter a complaint ID';
-                    trackingError.style.display = 'block';
-                    return;
-                }
-
-                // Check if ID exists in database
-                const complaint = complaintDatabase[inputId];
 
                 if (complaint) {
-                    // Display results
-                    document.getElementById('resultId').textContent = complaint.id;
-                    document.getElementById('resultCategory').innerHTML = `< span class="category-badge" > ${complaint.category}</span >`;
-                    document.getElementById('resultArea').textContent = complaint.area;
-
-                    // Set status with appropriate styling
-                    let statusHTML = '';
-                    if (complaint.status === 'pending') {
-                        statusHTML = '<span class="status-tag pending">Pending</span>';
-                    } else if (complaint.status === 'processing') {
-                        statusHTML = '<span class="status-tag processing">Processing</span>';
-                    } else if (complaint.status === 'resolved') {
-                        statusHTML = '<span class="status-tag resolved">Resolved</span>';
-                    }
-                    document.getElementById('resultStatus').innerHTML = statusHTML;
-
-                    document.getElementById('resultTime').textContent = complaint.time;
-                    document.getElementById('resultDescription').textContent = complaint.description;
-
-                    trackingResults.style.display = 'block';
+                    displayTrackingResult(complaint);
                 } else {
                     trackingError.textContent = '❌ Complaint ID not found. Please check and try again.';
                     trackingError.style.display = 'block';
                 }
+            } catch (error) {
+                console.error('Error tracking complaint:', error);
+                trackingError.textContent = '❌ Error tracking complaint. Please try again.';
+                trackingError.style.display = 'block';
+            }
+        }
+
+        function displayTrackingResult(complaint) {
+            const type = complaint.complaint_type || 'Other';
+            const typeEmoji = getTypeEmoji(type);
+
+            document.getElementById('resultId').textContent = complaint.id || complaint.complaint_id;
+            document.getElementById('resultCategory').innerHTML = `<span class="category-badge">${typeEmoji} ${type}</span>`;
+            document.getElementById('resultArea').textContent = complaint.area || complaint.ward || 'N/A';
+
+            let statusHTML = '';
+            if (complaint.status === 'pending') {
+                statusHTML = '<span class="status-tag pending">Pending</span>';
+            } else if (complaint.status === 'in_progress') {
+                statusHTML = '<span class="status-tag processing">Processing</span>';
+            } else if (complaint.status === 'resolved') {
+                statusHTML = '<span class="status-tag resolved">Resolved</span>';
+            } else {
+                statusHTML = `<span class="status-tag">${complaint.status}</span>`;
+            }
+            document.getElementById('resultStatus').innerHTML = statusHTML;
+
+            document.getElementById('resultTime').textContent = complaint.created_at ?
+                new Date(complaint.created_at).toLocaleString() : 'N/A';
+            document.getElementById('resultDescription').textContent = complaint.description || 'No description provided';
+
+            document.getElementById('trackingResults').style.display = 'block';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+            initCharts();
+            loadRealData();
+
+            // Refresh button
+            document.getElementById('refreshBtn').addEventListener('click', loadRealData);
+
+            // Track button
+            document.getElementById('trackButton').addEventListener('click', function () {
+                const inputId = document.getElementById('trackingId').value.trim();
+                trackComplaint(inputId);
             });
 
             // Allow Enter key to track
-            trackingId.addEventListener('keypress', function (e) {
+            document.getElementById('trackingId').addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') {
-                    trackButton.click();
+                    trackComplaint(this.value.trim());
                 }
             });
-        })();
+
+            // Auto-refresh every 30 seconds
+            setInterval(loadRealData, 30000);
+        });
     </script>
 
     <style>
+        /* Particles Container */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -20px;
+            background: linear-gradient(135deg, rgba(26, 79, 139, 0.3), rgba(19, 136, 8, 0.3));
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.6;
+            }
+
+            90% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Connection Status */
+        .connection-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .status-dot.online {
+            background: #38ef7d;
+        }
+
+        .status-dot.loading {
+            background: #f7931e;
+        }
+
+        .status-dot.offline {
+            background: #f5576c;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
         /* Dashboard specific styles */
         .stat-trend {
             margin-top: var(--space-sm);
@@ -811,18 +1012,27 @@
         }
 
         .status-tag.pending {
-            background: rgba(240, 147, 251, 0.2);
-            color: #f093fb;
+            background: rgba(247, 147, 30, 0.2);
+            color: #f7931e;
         }
 
         .status-tag.processing {
-            background: rgba(102, 126, 234, 0.2);
-            color: #667eea;
+            background: rgba(26, 79, 139, 0.2);
+            color: #1a4f8b;
         }
 
         .status-tag.resolved {
             background: rgba(56, 239, 125, 0.2);
             color: #38ef7d;
+        }
+
+        /* Category Badge */
+        .category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(26, 79, 139, 0.1);
+            border-radius: 6px;
+            font-size: 0.85rem;
         }
 
         /* n8n Features */

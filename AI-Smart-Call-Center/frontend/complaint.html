@@ -13,13 +13,16 @@
 </head>
 
 <body>
+    <!-- Particles Container for Animation -->
+    <div id="particles" class="particles-container"></div>
+
     <!-- Top Navigation -->
     <nav class="top-nav">
         <a href="index.html" class="nav-brand">
             <span class="emblem">🏛️</span>
             <div class="nav-brand-text">
                 <span class="title">Vadodara Nagar Samwad</span>
-                <span class="subtitle">वडोदरा नगर संवाद | વડોદરા નગર સંવાડ</span>
+                <span class="subtitle">वडोदरा नगर संवाद | વડોદરા નગર સંવાદ</span>
             </div>
         </a>
         <div class="nav-links">
@@ -101,6 +104,28 @@
                     <div class="card-status">
                         <span class="status-dot"></span>
                         <span>~165 Active Reports</span>
+                    </div>
+                </div>
+
+                <div class="complaint-card" onclick="selectComplaintType('Sanitation')" tabindex="0" role="button"
+                    aria-label="Report Sanitation Issue">
+                    <div class="complaint-icon">🧹</div>
+                    <h3 class="complaint-title">Sanitation</h3>
+                    <p class="complaint-desc">Report public toilet issues, open defecation, or mosquito breeding</p>
+                    <div class="card-status">
+                        <span class="status-dot"></span>
+                        <span>~125 Active Reports</span>
+                    </div>
+                </div>
+
+                <div class="complaint-card" onclick="selectComplaintType('Other')" tabindex="0" role="button"
+                    aria-label="Report Other Issue">
+                    <div class="complaint-icon">📝</div>
+                    <h3 class="complaint-title">Other</h3>
+                    <p class="complaint-desc">Report other municipal issues not listed above</p>
+                    <div class="card-status">
+                        <span class="status-dot"></span>
+                        <span>~90 Active Reports</span>
                     </div>
                 </div>
             </div>
@@ -202,6 +227,46 @@
     </script>
 
     <style>
+        /* Particles Container */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -20px;
+            background: linear-gradient(135deg, rgba(26, 79, 139, 0.3), rgba(19, 136, 8, 0.3));
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.6;
+            }
+
+            90% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
         /* Additional styles for this page */
         .card-status {
             display: flex;

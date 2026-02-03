@@ -386,6 +386,8 @@ Click the microphone button and describe your complaint. I'll help you register 
                     <button class="quick-type-btn" onclick="selectQuickType('Road Damage')">🛣️ Road Damage</button>
                     <button class="quick-type-btn" onclick="selectQuickType('Garbage')">🗑️ Garbage</button>
                     <button class="quick-type-btn" onclick="selectQuickType('Drainage')">🚿 Drainage</button>
+                    <button class="quick-type-btn" onclick="selectQuickType('Sanitation')">🧹 Sanitation</button>
+                    <button class="quick-type-btn" onclick="selectQuickType('Other')">📝 Other</button>
                 </div>
             </div>
         </div>
@@ -546,6 +548,13 @@ Click the microphone button and describe your complaint. I'll help you register 
             }
             if (lower.includes('drain') || lower.includes('sewer') || lower.includes('gutter') || lower.includes('manhole')) {
                 return 'Drainage';
+            }
+            if (lower.includes('toilet') || lower.includes('sanitation') || lower.includes('mosquito') || lower.includes('defecation') || lower.includes('urination')) {
+                return 'Sanitation';
+            }
+            // Default to "Other" if no specific type is detected but has some content
+            if (lower.length > 5) {
+                return 'Other';
             }
 
             return null;
