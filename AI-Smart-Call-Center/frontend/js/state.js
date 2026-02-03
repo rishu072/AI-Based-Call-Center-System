@@ -47,8 +47,8 @@ const INITIAL_STATE = {
     lastUpdated: null
 };
 
-// Initialize app state from localStorage or use default
-let appState = loadStateFromStorage() || INITIAL_STATE;
+// Initialize app state - will be set after loadStateFromStorage is defined
+let appState = null;
 
 /**
  * Load state from localStorage
@@ -127,10 +127,15 @@ function setState(updates) {
 }
 
 /**
- * Get entire app state
+ * Get entire app state - always refreshes from localStorage for cross-page consistency
  * @returns {Object} Current application state
  */
 function getState() {
+    // Always load fresh from localStorage to get updates from other pages
+    const freshState = loadStateFromStorage();
+    if (freshState) {
+        appState = freshState;
+    }
     return { ...appState };
 }
 
@@ -277,6 +282,9 @@ function exportState() {
 window.addEventListener('beforeunload', () => {
     saveStateToStorage();
 });
+
+// Initialize appState now that loadStateFromStorage is defined
+appState = loadStateFromStorage() || { ...INITIAL_STATE };
 
 // Export for use in other scripts
 if (typeof module !== 'undefined' && module.exports) {
