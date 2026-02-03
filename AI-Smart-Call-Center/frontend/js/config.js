@@ -75,6 +75,7 @@ const CONFIG = {
         'Water Supply': '💧 Water Supply',
         'Road Damage': '🛣️ Road Damage',
         'Garbage': '🗑️ Garbage',
+        'Drainage': '🚿 Drainage',
         'Sanitation': '🧹 Sanitation',
         'Other': '📋 Other'
     },
